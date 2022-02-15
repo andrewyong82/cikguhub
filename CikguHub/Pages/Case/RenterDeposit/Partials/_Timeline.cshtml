@@ -1,0 +1,36 @@
+﻿@model CikguHub.Data.Activity
+
+<div class="timeline-item" activityId="@Model.ActivityId">
+    <div class="timeline-media">
+        <i class="@Model.ActivityType.ToIcon()"></i>
+    </div>
+    <div class="timeline-content">
+        <div class="d-flex align-items-center justify-content-between">
+            <div class="mr-2">
+                <a href="#" class="text-dark-75 text-hover-primary font-weight-bold">@Model.ToCaseMessage()</a>
+                <span class="text-muted ml-2">@Model.Created.ToPrettyDate()</span>
+                @*<span class="label label-light-primary font-weight-bolder label-inline ml-2">delivered</span>*@
+            </div>
+            <div class="dropdown ml-2" data-toggle="tooltip" title="" data-placement="left" data-original-title="Quick actions">
+                <a href="#" class="btn btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="ki ki-more-hor icon-md"></i>
+                </a>
+                <div class="dropdown-menu p-0 m-0 dropdown-menu-right">
+                    <!--begin::Navigation-->
+                    <ul class="navi navi-hover">
+                        <li class="navi-item">
+                            <a class="btn btn-clean w-100" href="#" onclick="deleteActivity(@Model.ActivityId)">
+                                Delete
+                            </a>
+                        </li>
+                    </ul>
+                    <!--end::Navigation-->
+                </div>
+            </div>
+        </div>
+        @*@if (!String.IsNullOrWhiteSpace(Model.Data))
+        {
+            <p class="p-0">@Model.Data</p>
+        }*@
+    </div>
+</div>

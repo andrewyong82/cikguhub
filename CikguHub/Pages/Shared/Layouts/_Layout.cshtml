@@ -1,0 +1,38 @@
+﻿@{
+    Layout = "Layouts/_Application";
+}
+
+@section Styles { @await RenderSectionAsync("Styles", required: false) }
+@section Scripts { @await RenderSectionAsync("Scripts", required: false) }
+
+@await Html.PartialAsync("Layouts/Partials/_HeaderMobile")
+<!--end::Header Mobile-->
+<div class="d-flex flex-column flex-root">
+    <!--begin::Page-->
+    <div class="d-flex flex-row flex-column-fluid page">
+
+        @await Html.PartialAsync("Layouts/Partials/_Aside")
+
+        <!--begin::Wrapper-->
+        <div class="d-flex flex-column flex-row-fluid wrapper" id="kt_wrapper">
+            <!--begin::Header-->
+            @*@await Html.PartialAsync("Layouts/Partials/_Header")*@
+            <!--end::Header-->
+            <!--begin::Content-->
+            <div class="content d-flex flex-column flex-column-fluid" id="kt_content">
+                @RenderBody()
+            </div>
+            <!--end::Content-->
+            <!--begin::Footer-->
+            @await Html.PartialAsync("Layouts/Partials/_Footer")
+            <!--end::Footer-->
+
+
+        </div>
+        <!--end::Wrapper-->
+    </div>
+    <!--end::Page-->
+</div>
+<!--end::Main-->
+
+@await Html.PartialAsync("Layouts/Partials/_Scrolltop")

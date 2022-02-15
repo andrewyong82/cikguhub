@@ -1,0 +1,717 @@
+﻿@page "/Case/RenterDeposit/{id:int}/Setup"
+@model CikguHub.Pages.Case.RenterDeposit.SetupModel
+
+@{
+    ViewData["Title"] = "Case #" + Model.CaseRenterDeposit.CaseId.ToString("D3") + " - Setup";
+    ViewData["Subtitle"] = "Letter of Demand";
+    ViewData["ActiveCase"] = Model.CaseRenterDeposit.CaseId;
+}
+
+@section Styles
+{
+    <link href="~/assets/css/pages/wizard/wizard-3.css" rel="stylesheet" type="text/css" asp-append-version="true" />
+    <link href="~/assets/plugins/custom/uppy/uppy.bundle.css" rel="stylesheet" type="text/css" />
+    <style>
+        .customLook {
+            --tag-bg: #7e8299;
+            --tag-hover: #187de4;
+            --tag-text-color: #FFF;
+            --tags-border-color: silver;
+            --tag-text-color--edit: #111;
+            --tag-remove-bg: var(--tag-hover);
+            --tag-pad: .6em 1em;
+            --tag-inset-shadow-size: 10em;
+            --tag-remove-btn-bg--hover: black;
+            display: inline-block;
+            min-width: 0;
+            border: none;
+        }
+
+            .customLook .tagify__tag {
+                margin-top: 0;
+                cursor: pointer;
+            }
+
+                .customLook .tagify__tag > div {
+                    border-radius: 25px;
+                }
+
+            .customLook .tagify__tag__removeBtn {
+                display: none;
+            }
+
+            .customLook .tagify__input {
+                display: none;
+            }
+    </style>
+    <style>
+        label.error {
+            color: #f64e60;
+            font-size: .9rem;
+            font-weight: 400;
+        }
+
+        input.error {
+            border-color: #f64e60;
+            padding-right: calc(1.5em + 1.3rem);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23F64E60' viewBox='0 0 12 12'%3E%3Ccircle cx='6' cy='6' r='4.5'/%3E%3Cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3E%3Ccircle cx='6' cy='8.2' r='.6' fill='%23F64E60' stroke='none'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right calc(.375em + .325rem) center;
+            background-size: calc(.75em + .65rem) calc(.75em + .65rem);
+        }
+    </style>
+}
+
+@section Scripts
+{
+    <script src="~/assets/plugins/custom/uppy/uppy.bundle.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/jquery.validate.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/additional-methods.min.js"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <script src="~/assets/js/pages/crud/forms/widgets/input-mask.js?v=7.2.0"></script>
+
+    <script>
+    $.validator.methods.number = function (value, element) {
+        return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
+    };
+
+    var FLUppy = function () {
+        const ProgressBar = Uppy.ProgressBar;
+        const StatusBar = Uppy.StatusBar;
+        const FileInput = Uppy.FileInput;
+        const Informer = Uppy.Informer;
+        const Dashboard = Uppy.Dashboard;
+        const Webcam = Uppy.Webcam;
+        const XHRUpload = Uppy.XHRUpload
+
+        var initUppy1 = function () {
+            var id = '#kt_uppy_1';
+            var options = {
+                proudlyDisplayPoweredByUppy: false,
+                target: id,
+                inline: true,
+                replaceTargetContent: true,
+                showProgressDetails: true,
+                note: 'No filetype restrictions.',
+                height: 360,
+                width: '100%',
+                metaFields: [
+                    { id: 'name', name: 'Name', placeholder: 'file name' },
+                    { id: 'caption', name: 'Caption', placeholder: 'describe what the image is about' }
+                ],
+                browserBackButtonClose: true,
+                showLinkToFileUploadResult: true,
+                showSelectedFiles: true,
+                hideProgressAfterFinish: false,
+                showRemoveButtonAfterComplete: true,
+                doneButtonHandler: () => {
+                    $('[data-wizard-type="action-next"]').prop("disabled", false);
+                }
+            }
+            var uppyDashboard = Uppy.Core({
+                autoProceed: true,
+                restrictions: {
+                    maxFileSize: 10000000, // 10mb
+                    maxNumberOfFiles: 1,
+                    minNumberOfFiles: 1
+                },
+                meta: {
+                    caseId: '@Model.CaseRenterDeposit.CaseId'
+                }
+            });
+            uppyDashboard.use(Dashboard, options);
+            uppyDashboard.use(XHRUpload, {
+                endpoint: '/api/caserenterdeposits/step1',
+                method: 'post',
+                getResponseData() {
+                    return {} // just empty. TODO: populate next wizard suggested fields with response data. no need to go back to server for data
+                },
+                fieldName: 'files',
+                timeout: 0
+            });
+            var isDone = false;
+            uppyDashboard.on('progress', (progress) => {
+                console.log(progress);
+                if (progress == 0) {
+
+                }
+                else if (progress < 100) {
+                    uppyDashboard.info('Uploading...', 'success', 2000);
+                }
+                else if (progress == 100) {
+                    if (!isDone) {
+                        uppyDashboard.info('Our robot lawyer is reviewing your agreement...', 'success', 60000);
+                        isDone = true;
+                    }
+                    else {
+                        uppyDashboard.info('Done!', 'success', 2000);
+                    }
+                }
+                else {}
+            })
+            uppyDashboard.on('upload-success', (file, response) => {
+
+                $('[data-wizard-type="action-next"]').prop("disabled", false);
+
+                //TODO: create image for thumbmail for when files have already been uploaded
+                //var img = new Image()
+                //img.width = 300
+                //img.alt = file.id
+                //img.src = response.uploadURL
+                //document.body.appendChild(img)
+                //$(id + ' .uppy-StatusBar-actionBtn--done').append('hide');
+            })
+
+            @if (Model.CaseRenterDeposit.TenancyContractResource != null)
+            {
+                <text>
+
+            uppyDashboard.addFile({
+                name: '@Model.CaseRenterDeposit.TenancyContractResource.Name', // file name
+                type: '@Model.CaseRenterDeposit.TenancyContractResource.FileType', // file type
+                data: { size: @Model.CaseRenterDeposit.TenancyContractResource.Size  }, // file blob
+            })
+
+            var uploadedfile;
+            uppyDashboard.getFiles().forEach(file => {
+                uppyDashboard.setFileState(file.id, {
+                    progress: {
+                        uploadComplete: true,
+                        uploadStarted: true,
+                        percentage: 100,
+                        bytesUploaded: @Model.CaseRenterDeposit.TenancyContractResource.Size
+                    }
+                });
+                uploadedfile = file;
+            })
+
+            uploadedfile.uploadURL = '@Model.CaseRenterDeposit.TenancyContractResource.StoragePath';
+            uppyDashboard.emit('upload-success', uploadedfile, uploadedfile);
+
+                </text>
+            }
+        }
+
+        return {
+            init: function () {
+                initUppy1();
+            }
+        };
+    }();
+
+    var FLWizard = function () {
+        // Base elements
+        var _wizardEl;
+        var _formEl;
+        var _wizardObj;
+
+        // Private functions
+        var _initWizard = function () {
+            // Initialize form wizard
+            var startStep = 1;
+            var hash = parseInt(location.hash.substr(1));
+            if (hash && Number.isInteger(hash))
+                startStep = hash;
+
+            _wizardObj = new KTWizard(_wizardEl, {
+                startStep: startStep, // initial active step number
+                clickableSteps: false  // allow step clicking
+            });
+
+            var _btnNext = KTUtil.find(_wizardEl, '[data-wizard-type="action-next"]');
+            //var _btnPrev = KTUtil.find(_wizardEl, '[data-wizard-type="action-prev"]');
+            var _btnSubmit = KTUtil.find(_wizardEl, '[data-wizard-type="action-submit"]');
+
+            // Change event
+            _wizardObj.on('change', function (wizard) {
+                if (wizard.getStep() > wizard.getNewStep()) {
+                    window.location.href = window.location.href.split("#")[0] + "#" + (wizard.getStep() - 1);
+                    return; // Skip if stepped back
+                }
+
+                KTUtil.btnWait(_btnNext, "spinner spinner-right spinner-white pr-15 disabled", "Please wait");
+
+                if (wizard.getStep() == 1) {
+                    window.location.href = window.location.href.split("#")[0] + "#" + wizard.getNewStep();
+                    location.reload();
+
+                    return false;
+                }
+
+                if (wizard.getStep() == 2) {
+                    $(_formEl).validate({
+                        rules: {
+                            TenantName: {
+                                required: true
+                            },
+                            PropertyAddress: {
+                                required: true
+                            },
+                            LandlordName: {
+                                required: true
+                            },
+                            SecurityDeposit: {
+                                required: true,
+                                number: true
+                            },
+                            UtilityDeposit: {
+                                required: true,
+                                number: true
+                            },
+                            OtherAmounts: {
+                                number: true
+                            }
+                        }
+                    });
+                    if ($(_formEl).valid()) {
+
+                        var data = $(_formEl).serialize();
+                        $.ajax({
+                            url: "/api/caserenterdeposits/step2",
+                            type: "POST",
+                            data: data,
+                            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                            success: function (res) {
+                                window.location.href = window.location.href.split("#")[0] + "#" + wizard.getNewStep();
+                                location.reload();
+                            }
+                        });
+
+                        return false;
+                    }
+                }
+
+                if (wizard.getStep() == 3) {
+                    var checkKeyReturned = document.getElementById("KeyReturned");
+                    var checkInspection = document.getElementById("Inspection");
+                    var checkLandlordTerminated = document.getElementById("LandlordTerminated");
+                    var rules = {
+                        LandlordAddress: {
+                            required: true
+                        },
+                        LandlordContact: {
+
+                        },
+                        LandlordEmail: {
+
+                        },
+                        TenantBankDetails: {
+                            required: true
+                        },
+                        TenantContact: {
+                            required: true
+                        },
+                        TenantAddress: {
+                            required: true
+                        },
+                        TenantEmail: {
+                            email: true,
+                            required: true
+                        },
+                        KeyReturnedDate: {
+                            required: false
+                        },
+                        JointInspectionDate: {
+                            required: false
+                        },
+                        LandlordTerminatedDate: {
+                            required: false
+                        },
+                        KeyReturned: {
+                            require_from_group: [1, ".variable-text"]
+                        },
+                        Inspection: {
+                            require_from_group: [1, ".variable-text"]
+                        },
+                        NoComplaints: {
+                            require_from_group: [1, ".variable-text"]
+                        },
+                        LandlordTerminated: {
+                            require_from_group: [1, ".variable-text"]
+                        },
+                        ResolutionDisputed: {
+                            require_from_group: [1, ".variable-text"]
+                        },
+                    };
+
+                    if (checkKeyReturned.checked)
+                        rules.KeyReturnedDate.required = true;
+
+                    if (checkInspection.checked)
+                        rules.JointInspectionDate.required = true;
+
+                    if (checkLandlordTerminated.checked)
+                        rules.LandlordTerminatedDate.required = true;
+
+                    $(_formEl).validate({
+                        rules: rules,
+                        groups: {  // combine error messages
+                            checkboxes: 'KeyReturned Inspection NoComplaints LandlordTerminated ResolutionDisputed'
+                        },
+                        errorPlacement: function (error, element) {
+                            if (element.hasClass('variable-text')) {
+                                $("#variable-text").append(error);
+                            }
+                            else {
+                                element.after(error); // default error placement
+                            }
+                        }
+                    });
+
+                    if ($(_formEl).valid()) {
+                        var data = $(_formEl).serialize();
+                        $.ajax({
+                            url: "/api/caserenterdeposits/step3",
+                            type: "POST",
+                            data: data,
+                            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                            success: function (res) {
+                                window.location.href = window.location.href.split("#")[0] + "#" + wizard.getNewStep();
+                                location.reload();
+                            },
+                            error: function (res) {
+                                KTUtil.btnRelease(_btnNext);
+                                alert(res.responseText);
+                            }
+                        });
+
+                        return false;
+                    }
+                }
+
+                KTUtil.scrollTop();
+                KTUtil.btnRelease(_btnNext);
+                return false;  // Do not change wizard step, further action will be handled by he validator
+            });
+
+            // Changed event
+            _wizardObj.on('changed', function (wizard) {
+                KTUtil.scrollTop();
+                $('[data-wizard-type="action-next"]').prop("disabled", false);
+
+                KTUtil.btnRelease(_btnNext);
+            });
+
+            // Submit event
+            _wizardObj.on('submit', function (wizard) {
+
+                KTUtil.btnWait(_btnSubmit, "spinner spinner-right spinner-white pr-15 disabled", "Please wait");
+
+                fetch("/api/payments/create", {
+                    method: "POST",
+                    body: new FormData(_formEl)
+                })
+                    .then(function (response) {
+                        return response.json();
+                    })
+                    .then(function (session) {
+                        return stripe.redirectToCheckout({ sessionId: session.id });
+                    })
+                    .then(function (result) {
+                        // If redirectToCheckout fails due to a browser or network
+                        // error, you should display the localized error message to your
+                        // customer using error.message.
+                        if (result.error) {
+
+                            KTUtil.btnRelease(_btnSubmit);
+
+                            alert(result.error.message);
+                        }
+                    })
+                    .catch(function (error) {
+
+                        KTUtil.btnRelease(_btnSubmit);
+
+                        console.error("Error:", error);
+                    });
+            });
+        }
+
+        var _initValidation = function () {
+
+        }
+
+        return {
+            // public functions
+            init: function () {
+                _wizardEl = KTUtil.getById('kt_wizard_v3');
+                _formEl = KTUtil.getById('kt_form');
+
+                _initWizard();
+            }
+        };
+        }();
+
+    //var FLInputmask = function () {
+
+    //    var setup = function () {
+
+
+    //    };
+
+    //    return {
+    //        // public functions
+    //        init: function() {
+    //            setup();
+    //        }
+    //    };
+    //}();
+
+    var stripe = Stripe("pk_test_51I0mKMHQJWW2iNwtNCaUHYn0IWbOAmljCWcAnkQ9v9J5UFlDgitSUHrLtxmKUR98xduG40Z2DDh7P6yujfUbIvtS006ooQh90l");
+    var handleKeyReturned;
+    var handleInspectionDate;
+    var handleNoComplaints;
+    var handleLandlordTerminated;
+    var handleResolutionDisputed;
+    jQuery(document).ready(function () {
+        FLWizard.init();
+        FLUppy.init();
+        //FLInputmask.init();
+
+        var inputs = document.querySelectorAll('.customLook');
+        for (var i = 0; i < inputs.length; i++) {
+            var input = inputs[i];
+            if (input.value.length <= 0) {
+                input.parentElement.hidden = true;
+                continue;
+            }
+            var tagify = new Tagify(input, {
+                delimiters: ';'
+            });
+            var tagItems = input.previousElementSibling.querySelectorAll('.customLook .tagify__tag');
+            function onAddButtonClick(el) {
+                var value = el.currentTarget.innerText;
+                var sourceid = el.currentTarget.parentElement.nextSibling.id;
+                var targetid = sourceid.slice(0, -10);
+                $("#" + targetid).val(value);
+            }
+            tagItems.forEach(function (item) {
+                item.addEventListener("click", onAddButtonClick);
+            })
+        }
+
+        var checkKeyReturned = document.getElementById("KeyReturned");
+        var checkNoComplaints = document.getElementById("NoComplaints");
+        var checkInspection = document.getElementById("Inspection");
+        var checkLandlordTerminated = document.getElementById("LandlordTerminated");
+        var checkResolutionDisputed = document.getElementById("ResolutionDisputed");
+        var inputKeyReturnedDate = document.getElementById("KeyReturnedDate");
+        var inputJointInspectionDate = document.getElementById("JointInspectionDate");
+        var inputLandlordTerminatedDate = document.getElementById("LandlordTerminatedDate");
+        var alertDispute = document.getElementById("HighDispute");
+
+        handleKeyReturned = function() {
+            if (checkKeyReturned.checked) {
+                checkLandlordTerminated.checked = false;
+                checkResolutionDisputed.checked = false;
+                checkLandlordTerminated.value = false;
+                checkResolutionDisputed.value = false;
+
+                inputLandlordTerminatedDate.hidden = true;
+                alertDispute.hidden = true;
+
+                inputKeyReturnedDate.hidden = false;
+                checkKeyReturned.value = true;
+            }
+            else {
+                inputKeyReturnedDate.hidden = true;
+                checkKeyReturned.value = false;
+            }
+        };
+
+        handleInspectionDate = function() {
+            if (checkInspection.checked) {
+                checkLandlordTerminated.checked = false;
+                checkResolutionDisputed.checked = false;
+                checkLandlordTerminated.value = false;
+                checkResolutionDisputed.value = false;
+
+                inputLandlordTerminatedDate.hidden = true;
+                alertDispute.hidden = true;
+
+                inputJointInspectionDate.hidden = false;
+                checkInspection.value = true;
+            }
+            else {
+                inputJointInspectionDate.hidden = true;
+                checkInspection.value = false;
+            }
+        };
+
+        handleNoComplaints = function () {
+            if (checkNoComplaints.checked) {
+                checkLandlordTerminated.checked = false;
+                checkResolutionDisputed.checked = false;
+                checkLandlordTerminated.value = false;
+                checkResolutionDisputed.value = false;
+
+                inputLandlordTerminatedDate.hidden = true;
+                alertDispute.hidden = true;
+
+                checkNoComplaints.value = true;
+            }
+            else {
+                checkNoComplaints.value = false;
+            }
+        }
+
+        handleLandlordTerminated = function() {
+            if (checkLandlordTerminated.checked) {
+                checkKeyReturned.checked = false;
+                checkNoComplaints.checked = false;
+                checkInspection.checked = false;
+                checkResolutionDisputed.checked = false;
+                checkKeyReturned.value = false;
+                checkNoComplaints.value = false;
+                checkInspection.value = false;
+                checkResolutionDisputed.value = false;
+
+                inputKeyReturnedDate.hidden = true;
+                inputJointInspectionDate.hidden = true;
+                alertDispute.hidden = true;
+
+                inputLandlordTerminatedDate.hidden = false;
+                checkLandlordTerminated.value = true;
+            }
+            else {
+                inputLandlordTerminatedDate.hidden = true;
+                checkLandlordTerminated.value = false;
+            }
+        };
+
+        handleResolutionDisputed = function() {
+            if (checkResolutionDisputed.checked) {
+                checkKeyReturned.checked = false;
+                checkNoComplaints.checked = false;
+                checkInspection.checked = false;
+                checkLandlordTerminated.checked = false;
+                checkKeyReturned.value = false;
+                checkNoComplaints.value = false;
+                checkInspection.value = false;
+                checkLandlordTerminated.value = false;
+
+                inputKeyReturnedDate.hidden = true;
+                inputJointInspectionDate.hidden = true;
+                inputLandlordTerminatedDate.hidden = true;
+
+                alertDispute.hidden = false;
+                checkResolutionDisputed.value = true;
+            }
+            else {
+                alertDispute.hidden = true;
+                checkResolutionDisputed.value = false;
+            }
+        };
+    });
+
+    </script>
+
+}
+
+<!--begin::Subheader-->
+@await Html.PartialAsync("Layouts/Partials/Subheader/_Subheader")
+<!--end::Subheader-->
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container">
+
+        <div class="card card-custom">
+            <div class="card-body p-0">
+                <!--begin: Wizard-->
+                <div class="wizard wizard-3" id="kt_wizard_v3" data-wizard-state="step-first" data-wizard-clickable="true">
+                    <!--begin: Wizard Nav-->
+                    <div class="wizard-nav">
+                        <div class="wizard-steps px-8 py-8 px-lg-15 py-lg-3">
+                            <!--begin::Wizard Step 1 Nav-->
+                            <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
+                                <div class="wizard-label">
+                                    <h3 class="wizard-title">
+                                        <span>1.</span>Upload Agreement
+                                    </h3>
+                                    <div class="wizard-bar"></div>
+                                </div>
+                            </div>
+                            <!--end::Wizard Step 1 Nav-->
+                            <!--begin::Wizard Step 2 Nav-->
+                            <div class="wizard-step" data-wizard-type="step">
+                                <div class="wizard-label">
+                                    <h3 class="wizard-title">
+                                        <span>2.</span>Tenancy Details
+                                    </h3>
+                                    <div class="wizard-bar"></div>
+                                </div>
+                            </div>
+                            <!--end::Wizard Step 2 Nav-->
+                            <!--begin::Wizard Step 3 Nav-->
+                            <div class="wizard-step" data-wizard-type="step">
+                                <div class="wizard-label">
+                                    <h3 class="wizard-title">
+                                        <span>3.</span>Case Details
+                                    </h3>
+                                    <div class="wizard-bar"></div>
+                                </div>
+                            </div>
+                            <!--end::Wizard Step 3 Nav-->
+                            <!--begin::Wizard Step 4 Nav-->
+                            <div class="wizard-step" data-wizard-type="step">
+                                <div class="wizard-label">
+                                    <h3 class="wizard-title">
+                                        <span>4.</span>Review &amp; Select Service
+                                    </h3>
+                                    <div class="wizard-bar"></div>
+                                </div>
+                            </div>
+                            <!--end::Wizard Step 4 Nav-->
+                        </div>
+                    </div>
+                    <!--end: Wizard Nav-->
+                    <!--begin: Wizard Body-->
+                    <div class="row justify-content-center py-10 px-8 py-lg-12 px-lg-10">
+                        <div class="col-xl-10 col-xxl-10">
+                            <!--begin: Wizard Form-->
+                            <form class="form" id="kt_form">
+                                <!--begin: Wizard Step 1-->
+                                <div class="pb-5 flex-center" data-wizard-type="step-content" data-wizard-state="current">
+                                    @await Html.PartialAsync("Partials/_Step1")
+                                </div>
+                                <!--end: Wizard Step 1-->
+                                <!--begin: Wizard Step 2-->
+                                <div class="pb-5" data-wizard-type="step-content">
+                                    @await Html.PartialAsync("Partials/_Step2", Model.CaseRenterDeposit)
+                                </div>
+                                <!--end: Wizard Step 2-->
+                                <!--begin: Wizard Step 3-->
+                                <div class="pb-5" data-wizard-type="step-content">
+                                    @await Html.PartialAsync("Partials/_Step3", Model.CaseRenterDeposit)
+                                </div>
+                                <!--end: Wizard Step 3-->
+                                <!--begin: Wizard Step 4-->
+                                <div class="pb-5" data-wizard-type="step-content">
+                                    @await Html.PartialAsync("Partials/_Step4", Model.CaseRenterDeposit)
+                                </div>
+                                <!--end: Wizard Step 4-->
+                                <!--begin: Wizard Actions-->
+                                <div class="d-flex justify-content-between border-top mt-5 pt-10">
+                                    <div class="mr-2">
+                                        <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
+                                    </div>
+                                    <div>
+                                        <button type="button" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit" @(Model.CaseRenterDeposit.Case.Status == CaseStatus.Review ? "" : "disabled")>Submit</button>
+                                        <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next" disabled>Next</button>
+                                    </div>
+                                </div>
+                                <!--end: Wizard Actions-->
+                            </form>
+                            <!--end: Wizard Form-->
+                        </div>
+                    </div>
+                    <!--end: Wizard Body-->
+                </div>
+                <!--end: Wizard-->
+            </div>
+        </div>
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Entry-->

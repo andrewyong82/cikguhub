@@ -1,0 +1,30 @@
+﻿@model IEnumerable<CikguHub.Data.Activity>
+
+<div class="container">
+    <!--begin::Timeline-->
+    <div class="timeline timeline-3">
+        <div class="timeline-items" id="activities">
+            @foreach (var item in Model)
+            {
+                @await Html.PartialAsync("Partials/_Timeline", item)
+            }
+
+            @*@if (Model.Count() <= 0)
+            {
+                <p>No activities found for this case</p>
+            }*@
+        </div>
+    </div>
+    <!--end::Timeline-->
+    <div class="separator separator-dashed my-10"></div>
+    <form class="form">
+        <div class="form-group">
+            <textarea class="form-control form-control-lg form-control-solid" id="note" rows="3" placeholder="Type note"></textarea>
+        </div>
+        <div class="row">
+            <div class="col">
+                <button type="button" class="btn btn-light-primary font-weight-bold" onclick="addActivity()">Add note</button>
+            </div>
+        </div>
+    </form>
+</div>

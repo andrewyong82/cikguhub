@@ -1,0 +1,35 @@
+﻿@{
+    Layout = "Layouts/_Layout";
+}
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}
+
+@await Html.PartialAsync("Layouts/Partials/Subheader/_Subheader")
+
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container">
+        <!--begin::Profile Account Information-->
+        <div class="d-flex flex-row">
+            <!--begin::Aside-->
+            <partial name="_ManageNav" />
+            <!--end::Aside-->
+            <!--begin::Content-->
+            <div class="flex-row-fluid ml-lg-8">
+                <!--begin::Card-->
+                <div class="card card-custom">
+                    @RenderBody()
+                </div>
+                <!--end::Card-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Profile Account Information-->
+    </div>
+    <!--end::Container-->
+</div>
+<!--end::Entry-->
+

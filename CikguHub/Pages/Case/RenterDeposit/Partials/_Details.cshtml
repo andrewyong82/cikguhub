@@ -1,0 +1,68 @@
+﻿@model CikguHub.Data.CaseRenterDeposit
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <form-display asp-for="TenantName" />
+            </div>
+            <div class="col-lg-6">
+                <form-display asp-for="TenantIC" />
+            </div>
+        </div>
+        @*<div class="row">
+            <div class="col-lg-6">
+                <form-display asp-for="TenancyStart" />
+            </div>
+            <div class="col-lg-6">
+                <form-display asp-for="TenancyEnd" />
+            </div>
+        </div>*@
+        <div class="row">
+            <div class="col-lg-12">
+                <form-display asp-for="PropertyAddress" />
+            </div>
+        </div>
+        <div class="separator separator-dashed my-5"></div>
+        <div class="row">
+            <div class="col-lg-6">
+                <form-display asp-for="LandlordName" />
+            </div>
+            @*<div class="col-lg-6">
+                <form-display asp-for="LandlordIC" />
+            </div>*@
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <form-display asp-for="LandlordContact" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <form-display asp-for="LandlordAddress" />
+            </div>
+        </div>
+        @*<div class="row">
+            <div class="col-lg-12">
+                <form-display asp-for="LandlordBankDetails" />
+            </div>
+        </div>*@
+        <div class="separator separator-dashed my-5"></div>
+        <div class="row">
+            <div class="col-lg-6">
+                <form-display asp-for="SecurityDeposit" />
+            </div>
+            <div class="col-lg-6">
+                <form-display asp-for="UtilityDeposit" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <form-display asp-for="OtherAmounts" />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <form-display asp-for="OtherAmountsReason" />
+            </div>
+        </div>
+    </div>

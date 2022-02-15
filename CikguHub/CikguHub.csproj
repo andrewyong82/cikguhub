@@ -1,0 +1,41 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>aspnet-CikguHub-01CED565-EFBA-4AF7-836B-488A02ACB897</UserSecretsId>
+    <CopyRefAssembliesToPublishDirectory>false</CopyRefAssembliesToPublishDirectory>
+    <Configurations>Debug;Release;Quick</Configurations>
+  </PropertyGroup>
+
+  <Target Name="DebugPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)'=='Quick'">
+  </Target>
+
+  <Target Name="DebugPreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)'=='Debug'">
+    <!--<Exec Command="npm run build" />-->
+  </Target>
+
+  <Target Name="ReleasePreCompileTarget" BeforeTargets="Build" Condition="'$(Configuration)'=='Release'">
+    <!--<Exec Command="npm run build:prod" />-->
+  </Target>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
+    <PackageReference Include="Azure.AI.FormRecognizer" Version="3.0.0" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="3.1.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="3.1.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="3.1.3" />
+    <PackageReference Include="Microsoft.Extensions.Azure" Version="1.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.ApplicationInsights" Version="2.16.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.4" ExcludeAssets="All" />
+    <PackageReference Include="SendGrid" Version="9.15.1" />
+    <PackageReference Include="stripe.net" Version="39.33.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CikguHub.Data\CikguHub.Data.csproj" />
+  </ItemGroup>
+
+</Project>

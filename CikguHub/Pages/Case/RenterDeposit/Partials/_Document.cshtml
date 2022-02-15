@@ -1,0 +1,73 @@
+﻿@model CikguHub.Data.CaseRenterDeposit
+
+<h4 class="font-weight-bold text-dark">Your letter of demand is ready.</h4>
+<br />
+
+
+<!-- Button trigger modal-->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#signatureModal">
+    Sign your letter
+</button>
+
+<br /><br />
+
+      <div id="nextSteps" hidden>
+          @if (Model.LetterOfDemandServiceLevel == ServiceLevel.Standard)
+          {
+              <h4 class="text-success font-weight-bold">COMPLETED! (Our Robot Lawyers are resting now)</h4>
+              <h4>Next step:</h4>
+              <p>1. Print this Letter of Demand</p>
+              <p>2. Self-deliver the Letter of Demand addressed to the Landlord By Courier OR A. R. Registered Post</p>
+          }
+          else if (Model.LetterOfDemandServiceLevel == ServiceLevel.Premium)
+          {
+
+              <h4 class="text-success font-weight-bold">COMPLETED! (Our Robot Lawyers has already contacted CikguHub operations team!)</h4>
+              <h4>Next steps:</h4>
+              <p>1. Our CikguHub Ops Team will deliver your Letter of Demand to the Landlord</p>
+              <p>2. We will upate you by EMAIL when the Landlord receives the Letter</p>
+              <p>3. Hang tight!</p>
+          }
+      </div>
+
+<!-- Modal-->
+<div class="modal fade" id="signatureModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="staticBackdrop" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Submit your signature</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <i aria-hidden="true" class="ki ki-close"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="signature-pad-container">
+                    <div id="signature-pad" class="signature-pad">
+                        <div class="signature-pad--body">
+                            <canvas></canvas>
+                        </div>
+                        <div class="signature-pad--footer">
+                            <div class="description">Sign above<br />(leave empty if you wish to sign by hand)</div>
+
+                            @*<div class="signature-pad--actions">
+                                    <div>
+                                        <button type="button" class="button clear" data-action="clear">Clear</button>
+                                        <button type="button" class="button" data-action="submit">Submit</button>
+
+                                    </div>
+                                </div>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button id="cancelSignature" type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Cancel</button>
+                <button id="submitSignature" type="button" class="btn btn-primary font-weight-bold">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="separator separator-dashed my-5"></div>
+
+<div id="document-container"></div>

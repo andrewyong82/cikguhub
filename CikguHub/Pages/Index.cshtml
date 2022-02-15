@@ -1,0 +1,58 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+    ViewData["Subtitle"] = "Dashboard";
+    ViewData["ActivePage"] = NavPages.Home;
+}
+
+<!--begin::Subheader-->
+@await Html.PartialAsync("Layouts/Partials/Subheader/_Subheader")
+<!--end::Subheader-->
+<!--begin::Entry-->
+<div class="d-flex flex-column-fluid">
+    <!--begin::Container-->
+    <div class="container">
+        @*@if (Model.Cases.Count <= 0)
+        {*@
+            <div class="row my-lg-5">
+                <div class="col-lg-7">
+                    <!--begin::Heading-->
+                    <h1 class="text-dark mb-10 mt-lg-5" style="font-size:xx-large">Take control of your tenancy dispute</h1>
+                    <!--end::Heading-->
+                    <!--begin::Content-->
+                    <h2 class="mb-8">Begin by issuing a <strong>letter of demand</strong> to your landlord</h2>
+                    <div class="font-size-h4 mb-8">
+                        <p>1. A letter of demand is the first step in claiming back your funds.</p>
+                        <p>2. Use it as leverage in your dispute.</p>
+                        <p>3. If that fails, proceed to escalate to court.</p>
+                        <p class="text-muted">(don't worry, our robot lawyer will guide you through the whole process)</p>
+                    </div>
+                    <a asp-area="" asp-page="/Case/New" class="btn font-weight-bolder text-uppercase font-size-lg btn-warning py-3 px-6">Get Started</a>
+                </div>
+                <div class="col-lg-5 text-center">
+                    <img style="width:400px" src="https://fastlaw.blob.core.windows.net/public/1411636-resize.png" />
+                </div>
+            </div>
+        @*}*@
+        <!--begin::Dashboard-->
+        <!--begin::Row-->
+        <div class="row">
+            @*@await Html.PartialAsync("Dashboard/_Timeline")*@
+            @await Html.PartialAsync("Dashboard/_Tasks", Model)
+            @await Html.PartialAsync("Dashboard/_Cases", Model)
+        </div>
+        <!--end::Row-->
+        <!--begin::Row-->
+        @*<div class="row">
+                @await Html.PartialAsync("Dashboard/_Document")
+                @await Html.PartialAsync("Dashboard/_Payments")
+
+            </div>*@
+        <!--end::Row-->
+        <!--end::Dashboard-->
+    </div>
+
+    <!--end::Container-->
+</div>
+<!--end::Entry-->

@@ -1,0 +1,75 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Profile";
+    ViewData["Subtitle"] = "Manage Account";
+    ViewData["ActivePage"] = ManageNavPages.Index;
+}
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
+<!--begin::Header-->
+<div class="card-header py-3">
+    <div class="card-title align-items-start flex-column">
+        <h3 class="card-label font-weight-bolder text-dark">Personal Information</h3>
+        <span class="text-muted font-weight-bold font-size-sm mt-1">
+            This will allow us to contact you when necessary and fill forms quickly for you <br />
+            Your information is always confidential and we will never share these without your consent!
+        </span>
+    </div>
+    <div class="card-toolbar">
+        <button type="submit" onclick="document.getElementById('profile-form').submit()" class="btn btn-warning">Save Changes</button>
+    </div>
+</div>
+<!--end::Header-->
+<!--begin::Form-->
+<form class="form" id="profile-form" method="post">
+    <div class="card-body">
+        <!--begin::Heading-->
+        <partial name="_StatusMessage" model="Model.StatusMessage" />
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label" asp-for="Input.Name"></label>
+            <div class="col-lg-9 col-xl-6">
+                <input class="form-control form-control-lg form-control-solid" asp-for="Input.Name" />
+            </div>
+            <span asp-validation-for="Input.Name" class="text-danger"></span>
+        </div>
+        <div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label" asp-for="Input.PhoneNumber"></label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="input-group input-group-lg input-group-solid">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="la la-phone"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Input.PhoneNumber" class="form-control form-control-lg form-control-solid" placeholder="Phone" />
+                </div>
+                <span class="form-text text-muted">We'll never share your number without your consent.</span>
+                <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        @*<div class="form-group row">
+            <label class="col-xl-3 col-lg-3 col-form-label" asp-for="Username">Email Address</label>
+            <div class="col-lg-9 col-xl-6">
+                <div class="input-group input-group-lg input-group-solid">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">
+                            <i class="la la-at"></i>
+                        </span>
+                    </div>
+                    <input asp-for="Username" class="form-control form-control-lg form-control-solid" placeholder="Email" />
+                </div>
+                <span class="form-text text-muted">
+                    Email will not be publicly displayed.
+                    <a href="#" class="font-weight-bold">Learn more</a>.
+                </span>
+                <span asp-validation-for="Username" class="text-danger"></span>
+            </div>
+        </div>*@
+    </div>
+</form>
+<!--end::Form-->

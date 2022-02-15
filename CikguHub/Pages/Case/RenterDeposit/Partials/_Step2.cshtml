@@ -1,0 +1,143 @@
+﻿@model CikguHub.Data.CaseRenterDeposit
+
+<h4 class="font-weight-bold text-dark">Tenancy Details</h4>
+<p class="mb-10 text-muted">You can click on suggested values to quickly fill the form</p>
+
+<input type="hidden" asp-for="CaseId" />
+<input type="hidden" asp-for="CaseRenterDepositId"/>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="TenantName" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Full name of tenant (yourself). Please note this cannot be an organisation or company <a href="#" data-toggle="tooltip" data-placement="right" title="We apologize we can only act for individuals. Refer to Rules of Court 2012"><i class="la la-info-circle align-middle"></i></a></span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="TenantName_Suggested">
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="TenantIC" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Malaysian IC of the tenant</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="TenantIC_Suggested">
+    </div>
+</div>
+@*<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="TenancyStart" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Full name of tenant</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="TenancyStart_Suggested">
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="TenancyEnd" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Full name of tenant</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="TenancyEnd_Suggested">
+    </div>
+</div>*@
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="PropertyAddress" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Address of the property under tenancy</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="PropertyAddress_Suggested">
+    </div>
+</div>
+<div class="separator separator-dashed my-5"></div>
+<h4 class="mb-10 font-weight-bold text-dark">Landlord Details</h4>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="LandlordName" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Full name of landlord</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="LandlordName_Suggested">
+    </div>
+</div>
+@*<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="LandlordIC" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Malaysian IC of landlord</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="LandlordIC_Suggested">
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="LandlordContact" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">(Optional) The letter of demand can be sent via message to landlord</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="LandlordContact_Suggested">
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="LandlordAddress" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">The letter of demand will be posted here. Don't put the tenancy address!</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="LandlordAddress_Suggested">
+    </div>
+</div>*@
+@*<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="LandlordBankDetails" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Full name of tenant</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="LandlordBankDetails_Suggested">
+    </div>
+</div>*@
+<div class="separator separator-dashed my-5"></div>
+<h4 class="mb-10 font-weight-bold text-dark">Other Details</h4>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="SecurityDeposit" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Amount placed as security (usually 2 months rental)</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="SecurityDeposit_Suggested">
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="UtilityDeposit" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Amount placed as security for utilities (usually half month rental)</span>
+    </div>
+    <div class="col-xl-4">
+        <div class="mb-2"><span class="text-muted">Suggested:</span></div>
+        <input class='customLook mt-1' asp-for="UtilityDeposit_Suggested">
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="OtherAmounts" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">(Optional) Other amounts disputed</span>
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="OtherAmountsReason" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">(Optional) Tell us the reason for this amount</span>
+    </div>
+</div>
