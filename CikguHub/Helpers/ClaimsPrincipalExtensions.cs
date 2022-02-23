@@ -34,14 +34,14 @@ namespace CikguHub.Helpers
             return currentUserId == id;
         }
 
-        public static List<Case> GetUserCases(this ClaimsPrincipal principal)
+        public static List<Course> GetUserCases(this ClaimsPrincipal principal)
         {
             var caseClaims = principal.FindAll("Case");
 
-            List<Case> cases = new List<Case>();
+            List<Course> cases = new List<Course>();
             foreach (var caseClaim in caseClaims)
             {
-                cases.Add((Case)JsonSerializer.Deserialize(caseClaim.Value, typeof(Case)));
+                cases.Add((Course)JsonSerializer.Deserialize(caseClaim.Value, typeof(Course)));
             }
 
             return cases;
@@ -50,7 +50,7 @@ namespace CikguHub.Helpers
         public static bool HasCase(this ClaimsPrincipal principal, int caseId)
         {
             var cases = principal.GetUserCases();
-            return cases.Exists(c => c.CaseId == caseId);
+            return cases.Exists(c => c.CourseId == caseId);
         }
 
         public static string GetFolderName(this ClaimsPrincipal principal)

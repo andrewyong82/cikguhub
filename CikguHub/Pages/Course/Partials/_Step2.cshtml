@@ -1,0 +1,73 @@
+﻿@model CikguHub.Data.Course
+
+<h4 class="font-weight-bold text-dark">Course Details</h4>
+<p class="mb-10 text-muted">You can click on suggested values to quickly fill the form</p>
+
+<input type="hidden" asp-for="CourseId" />
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="Name" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Title of the course</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="Description" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Short description of the course (140 characters)</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="Tags" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Related categories</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+
+
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="VideoUrl" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Url of Youtube stream</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+
+
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="ChatChannel" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Url of chat stream</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="Duration" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Class duration in minutes</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+
+<div class="separator separator-dashed my-5"></div>
+<h4 class="mb-10 font-weight-bold text-dark">Course page</h4>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="Content" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Course page content</span>
+    </div>
+</div>

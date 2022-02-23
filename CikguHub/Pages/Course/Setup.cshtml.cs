@@ -9,7 +9,7 @@ using CikguHub.Data;
 using CikguHub.Helpers;
 using Microsoft.AspNetCore.Identity;
 
-namespace CikguHub.Pages.Case.RenterDeposit
+namespace CikguHub.Pages.Course
 {
     public class SetupModel : PageModel
     {
@@ -21,7 +21,7 @@ namespace CikguHub.Pages.Case.RenterDeposit
         }
 
         [BindProperty]
-        public CaseRenterDeposit CaseRenterDeposit { get; set; }
+        public Data.Course Course { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -35,18 +35,17 @@ namespace CikguHub.Pages.Case.RenterDeposit
                 return NotFound();
             }
 
-            CaseRenterDeposit = await _context.CaseRenterDeposits
-                .Include(c => c.Case)
-                .Include(c => c.TenancyContractResource)
-                .FirstOrDefaultAsync(m => m.CaseId == id);
+            Course = await _context.Courses
+                .Include(c => c.Classes)
+                .FirstOrDefaultAsync(m => m.CourseId == id);
 
             //Default values
-            if (String.IsNullOrWhiteSpace(CaseRenterDeposit.TenantEmail))
-            {
-                CaseRenterDeposit.TenantEmail = User.GetUserEmail();
-            }
+            //if (String.IsNullOrWhiteSpace(Course.TenantEmail))
+            //{
+            //    Course.TenantEmail = User.GetUserEmail();
+            //}
 
-            if (CaseRenterDeposit == null)
+            if (Course == null)
             {
                 return NotFound();
             }

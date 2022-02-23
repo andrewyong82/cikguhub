@@ -9,7 +9,7 @@ using CikguHub.Data;
 using CikguHub.Helpers;
 using Microsoft.AspNetCore.Identity;
 
-namespace CikguHub.Pages.Case.RenterDeposit
+namespace CikguHub.Pages.Course
 {
     public class IndexModel : PageModel
     {
@@ -23,7 +23,7 @@ namespace CikguHub.Pages.Case.RenterDeposit
         }
 
         [BindProperty]
-        public CaseRenterDeposit CaseRenterDeposit { get; set; }
+        public Data.Course Course { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -37,22 +37,20 @@ namespace CikguHub.Pages.Case.RenterDeposit
                 return NotFound();
             }
 
-            CaseRenterDeposit = await _context.CaseRenterDeposits
-                .Include(c => c.Case)
-                .Include(c => c.TenancyContractResource)
-                .Include(c => c.Case.Payments)
-                .FirstOrDefaultAsync(m => m.CaseId == id);
+            Course = await _context.Courses
+                .Include(c => c.Classes)
+                .FirstOrDefaultAsync(m => m.CourseId == id);
 
-            if (CaseRenterDeposit == null)
+            if (Course == null)
             {
                 return NotFound();
             }
 
-            if (CaseRenterDeposit.Case.Status == CaseStatus.New)
-                return RedirectToPage("/Case/RenterDeposit/Setup", new { id = CaseRenterDeposit.CaseId });
+            if (Course.Status == CourseStatus.New)
+                return RedirectToPage("/course/setup", new { id = Course.CourseId });
 
-            if (CaseRenterDeposit.Case.Status == CaseStatus.Review)
-                return Redirect("/case/renterDeposit/"  + CaseRenterDeposit.CaseId.ToString() + "/setup#4");
+            if (Course.Status == CourseStatus.Active)
+                return Redirect("/course/" + Course.CourseId.ToString() + "/setup#4");
 
             return Page();
         }

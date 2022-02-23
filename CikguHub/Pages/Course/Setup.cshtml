@@ -1,10 +1,10 @@
-﻿@page "/Case/RenterDeposit/{id:int}/Setup"
-@model CikguHub.Pages.Case.RenterDeposit.SetupModel
+﻿@page "/Course/{id:int}/Setup"
+@model CikguHub.Pages.Course.SetupModel
 
 @{
-    ViewData["Title"] = "Case #" + Model.CaseRenterDeposit.CaseId.ToString("D3") + " - Setup";
-    ViewData["Subtitle"] = "Letter of Demand";
-    ViewData["ActiveCase"] = Model.CaseRenterDeposit.CaseId;
+    ViewData["Title"] = "Course #" + Model.Course.CourseId.ToString("D3") + " - Setup";
+    ViewData["Subtitle"] = Model.Course.Name;
+    ViewData["ActiveCase"] = Model.Course.CourseId;
 }
 
 @section Styles
@@ -116,7 +116,7 @@
                     minNumberOfFiles: 1
                 },
                 meta: {
-                    caseId: '@Model.CaseRenterDeposit.CaseId'
+                    courseId: '@Model.Course.CourseId'
                 }
             });
             uppyDashboard.use(Dashboard, options);
@@ -162,14 +162,14 @@
                 //$(id + ' .uppy-StatusBar-actionBtn--done').append('hide');
             })
 
-            @if (Model.CaseRenterDeposit.TenancyContractResource != null)
+            @if (Model.Course.ImageResource != null)
             {
                 <text>
 
             uppyDashboard.addFile({
-                name: '@Model.CaseRenterDeposit.TenancyContractResource.Name', // file name
-                type: '@Model.CaseRenterDeposit.TenancyContractResource.FileType', // file type
-                data: { size: @Model.CaseRenterDeposit.TenancyContractResource.Size  }, // file blob
+                name: '@Model.Course.ImageResource.Name', // file name
+                type: '@Model.Course.ImageResource.FileType', // file type
+                data: { size: @Model.Course.ImageResource.Size  }, // file blob
             })
 
             var uploadedfile;
@@ -179,13 +179,13 @@
                         uploadComplete: true,
                         uploadStarted: true,
                         percentage: 100,
-                        bytesUploaded: @Model.CaseRenterDeposit.TenancyContractResource.Size
+                        bytesUploaded: @Model.Course.ImageResource.Size
                     }
                 });
                 uploadedfile = file;
             })
 
-            uploadedfile.uploadURL = '@Model.CaseRenterDeposit.TenancyContractResource.StoragePath';
+            uploadedfile.uploadURL = '@Model.Course.ImageResource.StoragePath';
             uppyDashboard.emit('upload-success', uploadedfile, uploadedfile);
 
                 </text>
@@ -442,31 +442,10 @@
         };
         }();
 
-    //var FLInputmask = function () {
-
-    //    var setup = function () {
-
-
-    //    };
-
-    //    return {
-    //        // public functions
-    //        init: function() {
-    //            setup();
-    //        }
-    //    };
-    //}();
-
     var stripe = Stripe("pk_test_51I0mKMHQJWW2iNwtNCaUHYn0IWbOAmljCWcAnkQ9v9J5UFlDgitSUHrLtxmKUR98xduG40Z2DDh7P6yujfUbIvtS006ooQh90l");
-    var handleKeyReturned;
-    var handleInspectionDate;
-    var handleNoComplaints;
-    var handleLandlordTerminated;
-    var handleResolutionDisputed;
     jQuery(document).ready(function () {
         FLWizard.init();
         FLUppy.init();
-        //FLInputmask.init();
 
         var inputs = document.querySelectorAll('.customLook');
         for (var i = 0; i < inputs.length; i++) {
@@ -478,130 +457,7 @@
             var tagify = new Tagify(input, {
                 delimiters: ';'
             });
-            var tagItems = input.previousElementSibling.querySelectorAll('.customLook .tagify__tag');
-            function onAddButtonClick(el) {
-                var value = el.currentTarget.innerText;
-                var sourceid = el.currentTarget.parentElement.nextSibling.id;
-                var targetid = sourceid.slice(0, -10);
-                $("#" + targetid).val(value);
-            }
-            tagItems.forEach(function (item) {
-                item.addEventListener("click", onAddButtonClick);
-            })
         }
-
-        var checkKeyReturned = document.getElementById("KeyReturned");
-        var checkNoComplaints = document.getElementById("NoComplaints");
-        var checkInspection = document.getElementById("Inspection");
-        var checkLandlordTerminated = document.getElementById("LandlordTerminated");
-        var checkResolutionDisputed = document.getElementById("ResolutionDisputed");
-        var inputKeyReturnedDate = document.getElementById("KeyReturnedDate");
-        var inputJointInspectionDate = document.getElementById("JointInspectionDate");
-        var inputLandlordTerminatedDate = document.getElementById("LandlordTerminatedDate");
-        var alertDispute = document.getElementById("HighDispute");
-
-        handleKeyReturned = function() {
-            if (checkKeyReturned.checked) {
-                checkLandlordTerminated.checked = false;
-                checkResolutionDisputed.checked = false;
-                checkLandlordTerminated.value = false;
-                checkResolutionDisputed.value = false;
-
-                inputLandlordTerminatedDate.hidden = true;
-                alertDispute.hidden = true;
-
-                inputKeyReturnedDate.hidden = false;
-                checkKeyReturned.value = true;
-            }
-            else {
-                inputKeyReturnedDate.hidden = true;
-                checkKeyReturned.value = false;
-            }
-        };
-
-        handleInspectionDate = function() {
-            if (checkInspection.checked) {
-                checkLandlordTerminated.checked = false;
-                checkResolutionDisputed.checked = false;
-                checkLandlordTerminated.value = false;
-                checkResolutionDisputed.value = false;
-
-                inputLandlordTerminatedDate.hidden = true;
-                alertDispute.hidden = true;
-
-                inputJointInspectionDate.hidden = false;
-                checkInspection.value = true;
-            }
-            else {
-                inputJointInspectionDate.hidden = true;
-                checkInspection.value = false;
-            }
-        };
-
-        handleNoComplaints = function () {
-            if (checkNoComplaints.checked) {
-                checkLandlordTerminated.checked = false;
-                checkResolutionDisputed.checked = false;
-                checkLandlordTerminated.value = false;
-                checkResolutionDisputed.value = false;
-
-                inputLandlordTerminatedDate.hidden = true;
-                alertDispute.hidden = true;
-
-                checkNoComplaints.value = true;
-            }
-            else {
-                checkNoComplaints.value = false;
-            }
-        }
-
-        handleLandlordTerminated = function() {
-            if (checkLandlordTerminated.checked) {
-                checkKeyReturned.checked = false;
-                checkNoComplaints.checked = false;
-                checkInspection.checked = false;
-                checkResolutionDisputed.checked = false;
-                checkKeyReturned.value = false;
-                checkNoComplaints.value = false;
-                checkInspection.value = false;
-                checkResolutionDisputed.value = false;
-
-                inputKeyReturnedDate.hidden = true;
-                inputJointInspectionDate.hidden = true;
-                alertDispute.hidden = true;
-
-                inputLandlordTerminatedDate.hidden = false;
-                checkLandlordTerminated.value = true;
-            }
-            else {
-                inputLandlordTerminatedDate.hidden = true;
-                checkLandlordTerminated.value = false;
-            }
-        };
-
-        handleResolutionDisputed = function() {
-            if (checkResolutionDisputed.checked) {
-                checkKeyReturned.checked = false;
-                checkNoComplaints.checked = false;
-                checkInspection.checked = false;
-                checkLandlordTerminated.checked = false;
-                checkKeyReturned.value = false;
-                checkNoComplaints.value = false;
-                checkInspection.value = false;
-                checkLandlordTerminated.value = false;
-
-                inputKeyReturnedDate.hidden = true;
-                inputJointInspectionDate.hidden = true;
-                inputLandlordTerminatedDate.hidden = true;
-
-                alertDispute.hidden = false;
-                checkResolutionDisputed.value = true;
-            }
-            else {
-                alertDispute.hidden = true;
-                checkResolutionDisputed.value = false;
-            }
-        };
     });
 
     </script>
@@ -678,17 +534,17 @@
                                 <!--end: Wizard Step 1-->
                                 <!--begin: Wizard Step 2-->
                                 <div class="pb-5" data-wizard-type="step-content">
-                                    @await Html.PartialAsync("Partials/_Step2", Model.CaseRenterDeposit)
+                                    @await Html.PartialAsync("Partials/_Step2", Model.Course)
                                 </div>
                                 <!--end: Wizard Step 2-->
                                 <!--begin: Wizard Step 3-->
                                 <div class="pb-5" data-wizard-type="step-content">
-                                    @await Html.PartialAsync("Partials/_Step3", Model.CaseRenterDeposit)
+                                    @await Html.PartialAsync("Partials/_Step3", Model.Course)
                                 </div>
                                 <!--end: Wizard Step 3-->
                                 <!--begin: Wizard Step 4-->
                                 <div class="pb-5" data-wizard-type="step-content">
-                                    @await Html.PartialAsync("Partials/_Step4", Model.CaseRenterDeposit)
+                                    @await Html.PartialAsync("Partials/_Step4", Model.Course)
                                 </div>
                                 <!--end: Wizard Step 4-->
                                 <!--begin: Wizard Actions-->
@@ -697,7 +553,7 @@
                                         <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
                                     </div>
                                     <div>
-                                        <button type="button" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit" @(Model.CaseRenterDeposit.Case.Status == CaseStatus.Review ? "" : "disabled")>Submit</button>
+                                        <button type="button" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit" @(Model.Course.Status == CourseStatus.Review ? "" : "disabled")>Submit</button>
                                         <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next" disabled>Next</button>
                                     </div>
                                 </div>

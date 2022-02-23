@@ -35,11 +35,11 @@ namespace CikguHub.Pages.Payment
 
             Payment.Status = PaymentStatus.Paid;
             Payment.Modified = DateTime.UtcNow;
-            Payment.Case.Status = CaseStatus.Active;
+            Payment.Case.Status = CourseStatus.Active;
 
             await _context.SaveChangesAsync();
 
-            await _activityLogger.LogCaseActivityAsync(Payment.Case.CaseId, ActivityType.Status, CaseStatus.Active);
+            await _activityLogger.LogCaseActivityAsync(Payment.Case.CourseId, ActivityType.Status, CourseStatus.Active);
 
             return RedirectToPage("/Case/RenterDeposit/Index", new { id = Payment.CaseId });
         }

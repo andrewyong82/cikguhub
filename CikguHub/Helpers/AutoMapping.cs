@@ -12,8 +12,8 @@ namespace CikguHub.Helpers
     {
         public AutoMapping()
         {
-            CreateMap<CaseRenterDeposit, CaseRenterDepositModel>();
-            CreateMap<CaseRenterDepositModel, CaseRenterDeposit>();
+            //CreateMap<CaseRenterDeposit, CaseRenterDepositModel>();
+            //CreateMap<CaseRenterDepositModel, CaseRenterDeposit>();
         }
     }
 }

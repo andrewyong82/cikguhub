@@ -19,9 +19,13 @@ namespace CikguHub.Data
         {
         }
 
-        public DbSet<Case> Cases { get; set; }
+        public DbSet<Course> Courses { get; set; }
 
-        public DbSet<CaseRenterDeposit> CaseRenterDeposits { get; set; }
+        public DbSet<Class> Classes { get; set; }
+
+        public DbSet<Enrolment> Enrolments { get; set; }
+
+        public DbSet<Subscription> Subscriptions { get; set; }
 
         public DbSet<Payment> Payments { get; set; }
 

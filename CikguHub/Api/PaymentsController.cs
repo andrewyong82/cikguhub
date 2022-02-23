@@ -25,25 +25,25 @@ namespace CikguHub.Api
         }
 
         [HttpPost("Create")]
-        public async Task<ActionResult> PostCreate([FromForm] CaseRenterDepositModel model)
+        public async Task<ActionResult> PostCreate([FromForm] CourseModel model)
         {
             Payment payment = new Payment();
-            Products.IProduct product = Products.GetProduct(model.LetterOfDemandServiceLevel);
+            Products.IProduct product = Products.GetProduct("");
 
             payment.Amount = product.Price;
             payment.Product = product.Name;
 
             payment.Method = CikguHub.Data.PaymentMethod.Stripe;
-            payment.CaseId = model.CaseId;
+            payment.CaseId = model.CourseId;
 
-            if (model.CaseRenterDepositId == 0)
+            if (model.CourseId == 0)
             {
                 return BadRequest();
             }
 
-            var caseRenterDeposit = await _context.CaseRenterDeposits.FindAsync(model.CaseRenterDepositId);
-            caseRenterDeposit.LetterOfDemandServiceLevel = model.LetterOfDemandServiceLevel;
-            caseRenterDeposit.LetterOfDemandPayment = payment;
+            //var caseRenterDeposit = await _context.CaseRenterDeposits.FindAsync(model.CaseRenterDepositId);
+            //caseRenterDeposit.LetterOfDemandServiceLevel = model.LetterOfDemandServiceLevel;
+            //caseRenterDeposit.LetterOfDemandPayment = payment;
             
             await _context.SaveChangesAsync();
 

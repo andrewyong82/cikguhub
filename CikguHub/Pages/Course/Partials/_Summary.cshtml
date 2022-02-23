@@ -23,7 +23,7 @@
                 <!--begin::Name-->
                 <a href="@Model.TenancyContractUrl" class="d-flex align-items-center text-dark text-hover-primary font-size-h5 font-weight-bold mr-3">
                     Recover Deposit
-                    @if (Model.Case.Status == CaseStatus.Active)
+                    @if (Model.Case.Status == CourseStatus.Active)
                     {
                         @*<i class="flaticon2-correct text-success icon-md ml-2"></i>*@
                         <span class="label label-lg label-light-success label-inline font-weight-bold ml-2">Active</span>

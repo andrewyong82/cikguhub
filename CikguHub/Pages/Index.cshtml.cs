@@ -30,7 +30,7 @@ namespace CikguHub.Pages
 
         public bool IsEmailConfirmed { get; set; }
 
-        public List<CaseRenterDeposit> Cases { get; set; } = new List<CaseRenterDeposit>();
+        public List<Data.Course> Courses { get; set; } = new List<Data.Course>();
 
         //public int TaskCount
         //{
@@ -42,9 +42,9 @@ namespace CikguHub.Pages
 
         private async Task LoadAsync(ApplicationUser user)
         {
-            Cases = await _context.CaseRenterDeposits
-                .Include(c => c.Case)
-                .Where(m => m.Case.ClientId == user.Id).ToListAsync();
+            //Cases = await _context.CaseRenterDeposits
+            //    .Include(c => c.Case)
+            //    .Where(m => m.Case.ClientId == user.Id).ToListAsync();
 
             IsEmailConfirmed = await _userManager.IsEmailConfirmedAsync(user);
         }

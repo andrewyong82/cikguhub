@@ -21,7 +21,7 @@ namespace CikguHub.Data
         public int CaseRenterDepositId { get; set; }
 
         public int CaseId { get; set; }
-        public Case Case { get; set; }
+        public Course Case { get; set; }
 
         public string Status { get; set; }
 

@@ -32,7 +32,7 @@ namespace CikguHub.Pages.Payment
 
             Payment.Status = PaymentStatus.Cancelled;
             Payment.Modified = DateTime.UtcNow;
-            Payment.Case.Status = CaseStatus.Review;
+            Payment.Case.Status = CourseStatus.Review;
 
             await _context.SaveChangesAsync();
 

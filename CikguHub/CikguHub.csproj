@@ -19,6 +19,26 @@
   </Target>
 
   <ItemGroup>
+    <Compile Remove="Pages\Case\**" />
+    <Content Remove="Pages\Case\**" />
+    <EmbeddedResource Remove="Pages\Case\**" />
+    <None Remove="Pages\Case\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Course\Partials\_Delivery.cshtml" />
+    <Content Remove="Pages\Course\Partials\_Details.cshtml" />
+    <Content Remove="Pages\Course\Partials\_Document.cshtml" />
+    <Content Remove="Pages\Course\Partials\_Notes.cshtml" />
+    <Content Remove="Pages\Course\Partials\_Payments.cshtml" />
+    <Content Remove="Pages\Course\Partials\_Settings.cshtml" />
+    <Content Remove="Pages\Course\Partials\_Summary.cshtml" />
+    <Content Remove="Pages\Course\Partials\_Timeline.cshtml" />
+    <Content Remove="Pages\Dashboard\_Cases.cshtml" />
+    <Content Remove="Pages\Dashboard\_Tasks.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.0" />
     <PackageReference Include="Azure.AI.FormRecognizer" Version="3.0.0" />
     <PackageReference Include="Azure.Storage.Blobs" Version="12.7.0" />

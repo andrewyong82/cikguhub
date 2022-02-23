@@ -9,7 +9,7 @@ using CikguHub.Data;
 using CikguHub.Helpers;
 using Microsoft.AspNetCore.Identity;
 
-namespace CikguHub.Pages.Case
+namespace CikguHub.Pages.Course
 {
     public class NewModel : PageModel
     {
@@ -28,28 +28,20 @@ namespace CikguHub.Pages.Case
 
         public async Task<IActionResult> OnGetAsync()
         {
-            //Create Case
-            Data.Case c = new Data.Case
+            Data.Course course = new Data.Course
             {
-                ClientId = User.GetUserId(),
-                Type = CaseType.RenterDeposit,
-                Name = "Recover Deposit"
+                Status = CourseStatus.New
             };
-            CaseRenterDeposit caseRenterDeposit = new CaseRenterDeposit
-            {
-                Case = c,
-                Status = CaseRenterDepositStatus.LetterOfDemand
-            };
-            _context.Add(caseRenterDeposit);
+            _context.Add(course);
 
             await _context.SaveChangesAsync();
 
-            await _activityLogger.LogCaseActivityAsync(c.CaseId, ActivityType.Created);
+            await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Created);
 
-            ApplicationUser user = _userManager.GetUserAsync(User).Result;
-            await _signInManager.RefreshSignInAsync(user);
+            //ApplicationUser user = _userManager.GetUserAsync(User).Result;
+            //await _signInManager.RefreshSignInAsync(user);
 
-            return RedirectToPage("/Case/RenterDeposit/Setup", new { id = c.CaseId });
+            return RedirectToPage("/Case/RenterDeposit/Setup", new { id = course.CourseId });
         }
     }
 }

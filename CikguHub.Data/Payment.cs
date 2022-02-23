@@ -57,7 +57,7 @@ namespace CikguHub.Data
                     break;
             }
 
-            return null;
+            return new RentalDepositLetterOfDemandStandard();
         }
     }
 
@@ -72,7 +72,10 @@ namespace CikguHub.Data
         public string Product { get; set; }
 
         public int? CaseId { get; set; }
-        public Case Case { get; set; }
+        public Course Case { get; set; }
+
+        public int UserId { get; set; }
+        public ApplicationUser User { get; set; }
 
         public DateTime Created { get; set; } = DateTime.UtcNow;
 

@@ -12,11 +12,11 @@ namespace CikguHub.Helpers
         {
             switch (status)
             {
-                case CaseStatus.New:
+                case CourseStatus.New:
                     return "Setup incomplete";
-                case CaseStatus.Review:
+                case CourseStatus.Review:
                     return "Pending payment";
-                case CaseStatus.Active:
+                case CourseStatus.Active:
                     return "In progress";
                 default:
                     return "Case closed";
@@ -27,11 +27,11 @@ namespace CikguHub.Helpers
         {
             switch (status)
             {
-                case CaseStatus.New:
+                case CourseStatus.New:
                     return "primary";
-                case CaseStatus.Review:
+                case CourseStatus.Review:
                     return "warning";
-                case CaseStatus.Active:
+                case CourseStatus.Active:
                     return "success";
                 default:
                     return "";

@@ -71,12 +71,12 @@ namespace CikguHub
             services.AddControllers();
             services.AddRouting(options => options.LowercaseUrls = true);
 
-            //services.AddAuthorization(options =>
-            //{
-            //    options.FallbackPolicy = new AuthorizationPolicyBuilder()
-            //        .RequireAuthenticatedUser()
-            //        .Build();
-            //});
+            services.AddAuthorization(options =>
+            {
+                options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+            });
 
             services.AddAuthentication()
                 .AddGoogle(options =>

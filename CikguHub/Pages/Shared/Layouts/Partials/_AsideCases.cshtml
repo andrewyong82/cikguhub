@@ -1,5 +1,5 @@
 ﻿<li class="menu-section">
-    <h4 class="menu-text">My Cases</h4>
+    <h4 class="menu-text">My Courses</h4>
     <i class="menu-icon ki ki-bold-more-hor icon-md"></i>
 </li>
 
@@ -27,8 +27,8 @@
     {*@
         foreach (var c in cases)
         {
-            <li class="menu-item @NavPages.CaseNavClass(ViewContext, c.CaseId)" aria-haspopup="true">
-                <a asp-area="" asp-page="/Case/RenterDeposit/Index" asp-route-id="@c.CaseId" class="menu-link">
+            <li class="menu-item @NavPages.CaseNavClass(ViewContext, c.CourseId)" aria-haspopup="true">
+                <a asp-area="" asp-page="/Case/RenterDeposit/Index" asp-route-id="@c.CourseId" class="menu-link">
                     <span class="svg-icon menu-icon">
                         <!--begin::Svg Icon | path:/var/www/preview.keenthemes.com/metronic/releases/2020-12-28-020759/theme/html/demo2/dist/../src/media/svg/icons/Files/Folder-thunder.svg--><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
                             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -38,7 +38,7 @@
                             </g>
                         </svg><!--end::Svg Icon-->
                     </span>
-                    <span class="menu-text">Case #@c.CaseId.ToString("D3")</span>
+                    <span class="menu-text">Case #@c.CourseId.ToString("D3")</span>
                 </a>
             </li>
         }
