@@ -11,7 +11,19 @@ namespace CikguHub.Api.Model
     {
         public int CourseId { get; set; }
 
+        public string Name { get; set; }
 
+        public string Description { get; set; }
+
+        public string Content { get; set; }
+
+        public string VideoUrl { get; set; }
+
+        public string ChatChannel { get; set; }
+
+        public string Tags { get; set; }
+
+        public int? Duration { get; set; }
 
         public CourseModel() { }
 

@@ -12,37 +12,9 @@
     <link href="~/assets/css/pages/wizard/wizard-3.css" rel="stylesheet" type="text/css" asp-append-version="true" />
     <link href="~/assets/plugins/custom/uppy/uppy.bundle.css" rel="stylesheet" type="text/css" />
     <style>
-        .customLook {
-            --tag-bg: #7e8299;
-            --tag-hover: #187de4;
-            --tag-text-color: #FFF;
-            --tags-border-color: silver;
-            --tag-text-color--edit: #111;
-            --tag-remove-bg: var(--tag-hover);
-            --tag-pad: .6em 1em;
-            --tag-inset-shadow-size: 10em;
-            --tag-remove-btn-bg--hover: black;
-            display: inline-block;
-            min-width: 0;
-            border: none;
+        .tagify.form-control {
+            padding: 0;
         }
-
-            .customLook .tagify__tag {
-                margin-top: 0;
-                cursor: pointer;
-            }
-
-                .customLook .tagify__tag > div {
-                    border-radius: 25px;
-                }
-
-            .customLook .tagify__tag__removeBtn {
-                display: none;
-            }
-
-            .customLook .tagify__input {
-                display: none;
-            }
     </style>
     <style>
         label.error {
@@ -121,7 +93,7 @@
             });
             uppyDashboard.use(Dashboard, options);
             uppyDashboard.use(XHRUpload, {
-                endpoint: '/api/caserenterdeposits/step1',
+                endpoint: '/api/courses/step1',
                 method: 'post',
                 getResponseData() {
                     return {} // just empty. TODO: populate next wizard suggested fields with response data. no need to go back to server for data
@@ -140,7 +112,7 @@
                 }
                 else if (progress == 100) {
                     if (!isDone) {
-                        uppyDashboard.info('Our robot lawyer is reviewing your agreement...', 'success', 60000);
+                        uppyDashboard.info('Almost there...', 'success', 60000);
                         isDone = true;
                     }
                     else {
@@ -170,6 +142,7 @@
                 name: '@Model.Course.ImageResource.Name', // file name
                 type: '@Model.Course.ImageResource.FileType', // file type
                 data: { size: @Model.Course.ImageResource.Size  }, // file blob
+                preview: '@Model.Course.ImageUrl'
             })
 
             var uploadedfile;
@@ -185,7 +158,8 @@
                 uploadedfile = file;
             })
 
-            uploadedfile.uploadURL = '@Model.Course.ImageResource.StoragePath';
+            uploadedfile.uploadURL = '@Model.Course.ImageUrl';
+
             uppyDashboard.emit('upload-success', uploadedfile, uploadedfile);
 
                 </text>
@@ -241,24 +215,18 @@
                 if (wizard.getStep() == 2) {
                     $(_formEl).validate({
                         rules: {
-                            TenantName: {
+                            Name: {
                                 required: true
                             },
-                            PropertyAddress: {
-                                required: true
-                            },
-                            LandlordName: {
-                                required: true
-                            },
-                            SecurityDeposit: {
+                            Description: {
                                 required: true,
-                                number: true
+                                rangelength: [2, 140]
                             },
-                            UtilityDeposit: {
+                            Tags: {
+                                required: true
+                            },
+                            Duration: {
                                 required: true,
-                                number: true
-                            },
-                            OtherAmounts: {
                                 number: true
                             }
                         }
@@ -267,7 +235,7 @@
 
                         var data = $(_formEl).serialize();
                         $.ajax({
-                            url: "/api/caserenterdeposits/step2",
+                            url: "/api/courses/step2",
                             type: "POST",
                             data: data,
                             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -282,86 +250,19 @@
                 }
 
                 if (wizard.getStep() == 3) {
-                    var checkKeyReturned = document.getElementById("KeyReturned");
-                    var checkInspection = document.getElementById("Inspection");
-                    var checkLandlordTerminated = document.getElementById("LandlordTerminated");
+
                     var rules = {
-                        LandlordAddress: {
-                            required: true
-                        },
-                        LandlordContact: {
 
-                        },
-                        LandlordEmail: {
-
-                        },
-                        TenantBankDetails: {
-                            required: true
-                        },
-                        TenantContact: {
-                            required: true
-                        },
-                        TenantAddress: {
-                            required: true
-                        },
-                        TenantEmail: {
-                            email: true,
-                            required: true
-                        },
-                        KeyReturnedDate: {
-                            required: false
-                        },
-                        JointInspectionDate: {
-                            required: false
-                        },
-                        LandlordTerminatedDate: {
-                            required: false
-                        },
-                        KeyReturned: {
-                            require_from_group: [1, ".variable-text"]
-                        },
-                        Inspection: {
-                            require_from_group: [1, ".variable-text"]
-                        },
-                        NoComplaints: {
-                            require_from_group: [1, ".variable-text"]
-                        },
-                        LandlordTerminated: {
-                            require_from_group: [1, ".variable-text"]
-                        },
-                        ResolutionDisputed: {
-                            require_from_group: [1, ".variable-text"]
-                        },
                     };
-
-                    if (checkKeyReturned.checked)
-                        rules.KeyReturnedDate.required = true;
-
-                    if (checkInspection.checked)
-                        rules.JointInspectionDate.required = true;
-
-                    if (checkLandlordTerminated.checked)
-                        rules.LandlordTerminatedDate.required = true;
 
                     $(_formEl).validate({
                         rules: rules,
-                        groups: {  // combine error messages
-                            checkboxes: 'KeyReturned Inspection NoComplaints LandlordTerminated ResolutionDisputed'
-                        },
-                        errorPlacement: function (error, element) {
-                            if (element.hasClass('variable-text')) {
-                                $("#variable-text").append(error);
-                            }
-                            else {
-                                element.after(error); // default error placement
-                            }
-                        }
                     });
 
                     if ($(_formEl).valid()) {
                         var data = $(_formEl).serialize();
                         $.ajax({
-                            url: "/api/caserenterdeposits/step3",
+                            url: "/api/courses/step3",
                             type: "POST",
                             data: data,
                             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -447,17 +348,19 @@
         FLWizard.init();
         FLUppy.init();
 
-        var inputs = document.querySelectorAll('.customLook');
-        for (var i = 0; i < inputs.length; i++) {
-            var input = inputs[i];
-            if (input.value.length <= 0) {
-                input.parentElement.hidden = true;
-                continue;
+        var input = document.getElementById("Tags");
+        tagify = new Tagify(input, {
+            whitelist: ["Growth", "Leadership", "Pedagogy", "Career", "Mentoring", "Management"],
+            maxTags: 10,
+            dropdown: {
+                maxItems: 20,           // <- mixumum allowed rendered suggestions
+                classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
+                enabled: 0,             // <- show suggestions on focus
+                closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
             }
-            var tagify = new Tagify(input, {
-                delimiters: ';'
-            });
-        }
+        })
+
+        autosize(document.querySelectorAll('textarea'));
     });
 
     </script>
@@ -483,7 +386,7 @@
                             <div class="wizard-step" data-wizard-type="step" data-wizard-state="current">
                                 <div class="wizard-label">
                                     <h3 class="wizard-title">
-                                        <span>1.</span>Upload Agreement
+                                        <span>1.</span>Upload Image
                                     </h3>
                                     <div class="wizard-bar"></div>
                                 </div>
@@ -493,7 +396,7 @@
                             <div class="wizard-step" data-wizard-type="step">
                                 <div class="wizard-label">
                                     <h3 class="wizard-title">
-                                        <span>2.</span>Tenancy Details
+                                        <span>2.</span>Course Details
                                     </h3>
                                     <div class="wizard-bar"></div>
                                 </div>
@@ -503,7 +406,7 @@
                             <div class="wizard-step" data-wizard-type="step">
                                 <div class="wizard-label">
                                     <h3 class="wizard-title">
-                                        <span>3.</span>Case Details
+                                        <span>3.</span>Manage Classes
                                     </h3>
                                     <div class="wizard-bar"></div>
                                 </div>
@@ -513,7 +416,7 @@
                             <div class="wizard-step" data-wizard-type="step">
                                 <div class="wizard-label">
                                     <h3 class="wizard-title">
-                                        <span>4.</span>Review &amp; Select Service
+                                        <span>4.</span>Review &amp; Publish
                                     </h3>
                                     <div class="wizard-bar"></div>
                                 </div>

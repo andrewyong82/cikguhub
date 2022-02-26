@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -42,8 +43,10 @@ namespace CikguHub.Data
         public int? ImageResourceId { get; set; }
         public Resource ImageResource { get; set; }
 
+        [DisplayName("Video Url")]
         public string VideoUrl { get; set; }
 
+        [DisplayName("Chat Channel")]
         public string ChatChannel { get; set; }
 
         public string Tags { get; set; }

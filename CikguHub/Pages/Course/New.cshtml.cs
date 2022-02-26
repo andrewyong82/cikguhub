@@ -41,7 +41,7 @@ namespace CikguHub.Pages.Course
             //ApplicationUser user = _userManager.GetUserAsync(User).Result;
             //await _signInManager.RefreshSignInAsync(user);
 
-            return RedirectToPage("/Case/RenterDeposit/Setup", new { id = course.CourseId });
+            return RedirectToPage("/Course/Setup", new { id = course.CourseId });
         }
     }
 }

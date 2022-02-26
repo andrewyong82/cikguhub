@@ -32,10 +32,10 @@ namespace CikguHub.Pages.Course
                 return NotFound();
             }
 
-            if (!User.HasCase(id.Value))
-            {
-                return NotFound();
-            }
+            //if (!User.HasCase(id.Value))
+            //{
+            //    return NotFound();
+            //}
 
             Course = await _context.Courses
                 .Include(c => c.Classes)

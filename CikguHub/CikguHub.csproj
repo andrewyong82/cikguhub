@@ -36,6 +36,7 @@
     <Content Remove="Pages\Course\Partials\_Timeline.cshtml" />
     <Content Remove="Pages\Dashboard\_Cases.cshtml" />
     <Content Remove="Pages\Dashboard\_Tasks.cshtml" />
+    <Content Remove="Pages\Shared\Layouts\Partials\_AsideCases.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
