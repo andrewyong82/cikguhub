@@ -33,6 +33,8 @@ namespace CikguHub.Helpers
                     return "warning";
                 case CourseStatus.Active:
                     return "success";
+                case CourseStatus.Closed:
+                    return "danger";
                 default:
                     return "";
             }

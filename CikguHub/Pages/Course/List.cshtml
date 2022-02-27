@@ -64,12 +64,12 @@
                                     <!--begin: Title-->
                                     <div class="d-flex flex-column mr-auto">
                                         <a asp-area="" asp-page="/Course/Index" asp-route-id="@item.CourseId" class="text-dark text-hover-primary font-size-h4 font-weight-bolder mb-1">@item.Name</a>
-                                        <span class="label label-lg label-light-@item.Status.GetLabel() label-inline font-weight-bold ml-2">@item.Status</span>
                                         @*<span class="text-muted font-weight-bold">Creates Limitless possibilities</span>*@
                                     </div>
                                     <!--end::Title-->
                                 </div>
                                 <!--end::Info-->
+                                <span class="label label-lg label-light-@item.Status.GetLabel() label-inline font-weight-bold mx-2">@item.Status</span>
                                 <!--begin::Toolbar-->
                                 <div class="card-toolbar mb-7">
                                     <div class="dropdown dropdown-inline" data-toggle="tooltip" title="" data-placement="left" data-original-title="">

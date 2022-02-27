@@ -39,13 +39,9 @@
     <script src="~/assets/plugins/custom/uppy/uppy.bundle.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/jquery.validate.min.js"></script>
     <script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.19.1/additional-methods.min.js"></script>
-    <script src="https://js.stripe.com/v3/"></script>
-    <script src="~/assets/js/pages/crud/forms/widgets/input-mask.js?v=7.2.0"></script>
 
+    <script src="~/assets/plugins/custom/tinymce/tinymce.bundle.js?v=7.2.9"></script>
     <script>
-    $.validator.methods.number = function (value, element) {
-        return this.optional(element) || /^-?(?:\d+|\d{1,3}(?:[\s\.,]\d{3})+)(?:[\.,]\d+)?$/.test(value);
-    };
 
     var FLUppy = function () {
         const ProgressBar = Uppy.ProgressBar;
@@ -298,7 +294,7 @@
 
                 KTUtil.btnWait(_btnSubmit, "spinner spinner-right spinner-white pr-15 disabled", "Please wait");
 
-                fetch("/api/payments/create", {
+                fetch("/api/courses/final", {
                     method: "POST",
                     body: new FormData(_formEl)
                 })
@@ -306,7 +302,8 @@
                         return response.json();
                     })
                     .then(function (session) {
-                        return stripe.redirectToCheckout({ sessionId: session.id });
+                        window.location.href = window.location.href.split("setup")[0];
+                        location.reload();
                     })
                     .then(function (result) {
                         // If redirectToCheckout fails due to a browser or network
@@ -343,10 +340,28 @@
         };
         }();
 
-    var stripe = Stripe("pk_test_51I0mKMHQJWW2iNwtNCaUHYn0IWbOAmljCWcAnkQ9v9J5UFlDgitSUHrLtxmKUR98xduG40Z2DDh7P6yujfUbIvtS006ooQh90l");
+    var KTTinymce = function () {
+        // Private functions
+
+        return {
+            // public functions
+            init: function () {
+
+                tinymce.init({
+                    selector: '#Content',
+                    menubar: false,
+                    statusbar: false,
+                    toolbar: [ 'undo redo restoredraft | cut copy paste | bold italic | link image media | bullist numlist | advlist | autolink | lists'],
+                    plugins: 'advlist autolink link image media lists autoresize autosave'
+                });
+            }
+        };
+    }();
+
     jQuery(document).ready(function () {
         FLWizard.init();
         FLUppy.init();
+        KTTinymce.init();
 
         var input = document.getElementById("Tags");
         tagify = new Tagify(input, {
@@ -360,7 +375,7 @@
             }
         })
 
-        autosize(document.querySelectorAll('textarea'));
+        autosize(document.getElementById("Description"));
     });
 
     </script>
@@ -396,7 +411,7 @@
                             <div class="wizard-step" data-wizard-type="step">
                                 <div class="wizard-label">
                                     <h3 class="wizard-title">
-                                        <span>2.</span>Course Details
+                                        <span>2.</span>Basic Details
                                     </h3>
                                     <div class="wizard-bar"></div>
                                 </div>
@@ -406,7 +421,7 @@
                             <div class="wizard-step" data-wizard-type="step">
                                 <div class="wizard-label">
                                     <h3 class="wizard-title">
-                                        <span>3.</span>Manage Classes
+                                        <span>3.</span>Course Content
                                     </h3>
                                     <div class="wizard-bar"></div>
                                 </div>
@@ -416,7 +431,7 @@
                             <div class="wizard-step" data-wizard-type="step">
                                 <div class="wizard-label">
                                     <h3 class="wizard-title">
-                                        <span>4.</span>Review &amp; Publish
+                                        <span>4.</span>Manage Classes
                                     </h3>
                                     <div class="wizard-bar"></div>
                                 </div>

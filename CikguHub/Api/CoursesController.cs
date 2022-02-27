@@ -7,20 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CikguHub.Data;
 using CikguHub.Helpers;
-using Microsoft.Extensions.Azure;
 using Azure.Storage.Blobs;
 using System.IO;
-using System.Reflection.Metadata;
-using System.Collections.Specialized;
 using Microsoft.Extensions.Configuration;
-using Azure;
-using Azure.AI.FormRecognizer;
-using Azure.AI.FormRecognizer.Models;
 using CikguHub.Api.Model;
 using AutoMapper;
-using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Logging;
-using System.Net;
 
 namespace CikguHub.Api
 {
@@ -211,6 +203,18 @@ namespace CikguHub.Api
             var course = await _context.Courses.FindAsync(model.CourseId);
 
             course = _mapper.Map<CourseModel, Course>(model, course);
+
+
+            if (course.Status == CourseStatus.New)
+            {
+                course.Status = CourseStatus.Review;
+                await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Status, CourseStatus.Review);
+            }
+            else
+            {
+                await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Edited);
+            }
+
             _context.Entry(course).State = EntityState.Modified;
 
             try
@@ -242,10 +246,66 @@ namespace CikguHub.Api
                 return BadRequest();
             }
 
-            var course = await _context.Courses.FirstOrDefaultAsync(c => c.CourseId == model.CourseId);
-            
+            var course = await _context.Courses.FindAsync(model.CourseId);
+
+            course = _mapper.Map<CourseModel, Course>(model, course);
+            _context.Entry(course).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+
+                await _activityLogger.LogCaseActivityAsync(model.CourseId, ActivityType.Edited);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CourseExists(course.CourseId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return Ok(course);
+        }
+
+        [HttpPost("Step3")]
+        public async Task<ActionResult<Course>> PostFinal([FromForm] CourseModel model)
+        {
+            if (model.CourseId == 0)
+            {
+                return BadRequest();
+            }
+
+            var course = await _context.Courses.FindAsync(model.CourseId);
+
+            course = _mapper.Map<CourseModel, Course>(model, course);
+
+            course.Status = CourseStatus.Active;
+            await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Status, CourseStatus.Active);
+
+            _context.Entry(course).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
 
 
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CourseExists(course.CourseId))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
 
             return Ok(course);
         }

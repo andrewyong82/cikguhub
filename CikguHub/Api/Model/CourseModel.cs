@@ -25,6 +25,8 @@ namespace CikguHub.Api.Model
 
         public int? Duration { get; set; }
 
+        public List<Class> Classes { get; set; }
+
         public CourseModel() { }
 
     }

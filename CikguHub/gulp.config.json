@@ -364,9 +364,9 @@
                 },
                 "tinymce-icons": {
                     "src": {
-                        "scripts": [
-                            "{$config.path.node_modules}/tinymce/icons/**"
-                        ]
+                      "scripts": [
+                        "{$config.path.node_modules}/tinymce/icons/**/*.js"
+                      ]
                     },
                     "output": {
                         "scripts": "{$config.dist}/plugins/custom/tinymce/icons"
