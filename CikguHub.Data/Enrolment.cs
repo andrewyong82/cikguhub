@@ -8,9 +8,6 @@ namespace CikguHub.Data
     {
         public int EnrolmentId { get; set; }
 
-        public int CourseId { get; set; }
-        public Course Course { get; set; }
-
         public int? ClassId { get; set; }
         public Class Class { get; set; }
 

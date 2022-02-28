@@ -1,10 +1,10 @@
-﻿@page "/Course/{id:int}/Setup"
-@model CikguHub.Pages.Course.SetupModel
+﻿@page "/Class/{id:int}/Setup"
+@model CikguHub.Pages.Class.SetupModel
 
 @{
-    ViewData["Title"] = "Course #" + Model.Course.CourseId.ToString("D3") + " - Setup";
-    ViewData["Subtitle"] = Model.Course.Name;
-    ViewData["ActiveCase"] = Model.Course.CourseId;
+    ViewData["Title"] = "Class #" + Model.Class.ClassId.ToString("D3") + " - Setup";
+    ViewData["Subtitle"] = Model.Class.Name;
+    ViewData["ActiveCase"] = Model.Class.ClassId;
 }
 
 @section Styles
@@ -84,12 +84,12 @@
                     minNumberOfFiles: 1
                 },
                 meta: {
-                    courseId: '@Model.Course.CourseId'
+                    classId: '@Model.Class.ClassId'
                 }
             });
             uppyDashboard.use(Dashboard, options);
             uppyDashboard.use(XHRUpload, {
-                endpoint: '/api/courses/step1',
+                endpoint: '/api/classes/step1',
                 method: 'post',
                 getResponseData() {
                     return {} // just empty. TODO: populate next wizard suggested fields with response data. no need to go back to server for data
@@ -130,15 +130,15 @@
                 //$(id + ' .uppy-StatusBar-actionBtn--done').append('hide');
             })
 
-            @if (Model.Course.ImageResource != null)
+            @if (Model.Class.ImageResource != null)
             {
                 <text>
 
             uppyDashboard.addFile({
-                name: '@Model.Course.ImageResource.Name', // file name
-                type: '@Model.Course.ImageResource.FileType', // file type
-                data: { size: @Model.Course.ImageResource.Size  }, // file blob
-                preview: '@Model.Course.ImageUrl'
+                name: '@Model.Class.ImageResource.Name', // file name
+                type: '@Model.Class.ImageResource.FileType', // file type
+                data: { size: @Model.Class.ImageResource.Size  }, // file blob
+                preview: '@Model.Class.ImageUrl'
             })
 
             var uploadedfile;
@@ -148,13 +148,13 @@
                         uploadComplete: true,
                         uploadStarted: true,
                         percentage: 100,
-                        bytesUploaded: @Model.Course.ImageResource.Size
+                        bytesUploaded: @Model.Class.ImageResource.Size
                     }
                 });
                 uploadedfile = file;
             })
 
-            uploadedfile.uploadURL = '@Model.Course.ImageUrl';
+            uploadedfile.uploadURL = '@Model.Class.ImageUrl';
 
             uppyDashboard.emit('upload-success', uploadedfile, uploadedfile);
 
@@ -231,7 +231,7 @@
 
                         var data = $(_formEl).serialize();
                         $.ajax({
-                            url: "/api/courses/step2",
+                            url: "/api/classes/step2",
                             type: "POST",
                             data: data,
                             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -258,7 +258,7 @@
                     if ($(_formEl).valid()) {
                         var data = $(_formEl).serialize();
                         $.ajax({
-                            url: "/api/courses/step3",
+                            url: "/api/classes/step3",
                             type: "POST",
                             data: data,
                             contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
@@ -294,7 +294,7 @@
 
                 KTUtil.btnWait(_btnSubmit, "spinner spinner-right spinner-white pr-15 disabled", "Please wait");
 
-                fetch("/api/courses/final", {
+                fetch("/api/classes/final", {
                     method: "POST",
                     body: new FormData(_formEl)
                 })
@@ -421,7 +421,7 @@
                             <div class="wizard-step" data-wizard-type="step">
                                 <div class="wizard-label">
                                     <h3 class="wizard-title">
-                                        <span>3.</span>Course Content
+                                        <span>3.</span>Class Content
                                     </h3>
                                     <div class="wizard-bar"></div>
                                 </div>
@@ -452,17 +452,17 @@
                                 <!--end: Wizard Step 1-->
                                 <!--begin: Wizard Step 2-->
                                 <div class="pb-5" data-wizard-type="step-content">
-                                    @await Html.PartialAsync("Partials/_Step2", Model.Course)
+                                    @await Html.PartialAsync("Partials/_Step2", Model.Class)
                                 </div>
                                 <!--end: Wizard Step 2-->
                                 <!--begin: Wizard Step 3-->
                                 <div class="pb-5" data-wizard-type="step-content">
-                                    @await Html.PartialAsync("Partials/_Step3", Model.Course)
+                                    @await Html.PartialAsync("Partials/_Step3", Model.Class)
                                 </div>
                                 <!--end: Wizard Step 3-->
                                 <!--begin: Wizard Step 4-->
                                 <div class="pb-5" data-wizard-type="step-content">
-                                    @await Html.PartialAsync("Partials/_Step4", Model.Course)
+                                    @await Html.PartialAsync("Partials/_Step4", Model.Class)
                                 </div>
                                 <!--end: Wizard Step 4-->
                                 <!--begin: Wizard Actions-->
@@ -471,7 +471,7 @@
                                         <button type="button" class="btn btn-light-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-prev">Previous</button>
                                     </div>
                                     <div>
-                                        <button type="button" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit" @(Model.Course.Status == CourseStatus.Review ? "" : "disabled")>Done</button>
+                                        <button type="button" class="btn btn-success font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-submit" @(Model.Class.Status == ClassStatus.Review ? "" : "disabled")>Done</button>
                                         <button type="button" class="btn btn-primary font-weight-bolder text-uppercase px-9 py-4" data-wizard-type="action-next" disabled>Save &amp; Continue</button>
                                     </div>
                                 </div>

@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace CikguHub.Data
 {
-    //public static class CaseType
-    //{
-    //    public const string RenterDeposit = "RenterDeposit";
-    //}
 
     public static class CourseStatus
     {

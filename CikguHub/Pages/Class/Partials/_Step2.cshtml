@@ -1,0 +1,68 @@
+﻿@model CikguHub.Data.Course
+
+<h4 class="font-weight-bold text-dark">Basic Details</h4>
+<p class="mb-10 text-muted">Essential setup information about the course</p>
+
+<input type="hidden" asp-for="CourseId" />
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="Name" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Title of the course</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        @*<form-entry asp-for="Description" />*@
+        <div class="form-group">
+            <label class="" for="Description">Description</label>
+            <textarea class="form-control" asp-for="Description"></textarea>
+        </div>
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Short description of the course (max 140 characters)</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="Tags" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Related categories</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="Duration" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Class duration in minutes</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="VideoUrl" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Url of Youtube stream</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
+
+
+<div class="row mb-10">
+    <div class="col-xl-8">
+        <form-entry asp-for="ChatChannel" />
+        <span style="margin-top:-1.5rem" class="form-text text-muted mb-5">Url of chat stream</span>
+    </div>
+    <div class="col-xl-4">
+
+    </div>
+</div>
