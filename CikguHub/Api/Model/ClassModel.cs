@@ -9,7 +9,7 @@ namespace CikguHub.Api.Model
 {
     public class ClassModel
     {
-        public int CourseId { get; set; }
+        public int ClassId { get; set; }
 
         public string Name { get; set; }
 
@@ -25,7 +25,7 @@ namespace CikguHub.Api.Model
 
         public int? Duration { get; set; }
 
-        public List<Class> Classes { get; set; }
+        public Course Course { get; set; }
 
         public ClassModel() { }
 

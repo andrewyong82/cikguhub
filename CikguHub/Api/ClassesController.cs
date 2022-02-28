@@ -131,98 +131,12 @@ namespace CikguHub.Api
             return _context.Classes.Any(e => e.ClassId == id);
         }
 
-        // GET: api/Courses
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Course>>> GetCourses()
-        {
-            return await _context.Courses.ToListAsync();
-        }
-
-        // GET: api/CaseRenterDeposits/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<Course>> GetCourse(int id)
-        {
-            var course = await _context.Courses.FindAsync(id);
-
-            if (course == null)
-            {
-                return NotFound();
-            }
-
-            return course;
-        }
-
-        // PUT: api/CaseRenterDeposits/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCourse(int id, Course course)
-        {
-            if (id != course.CourseId)
-            {
-                return BadRequest();
-            }
-
-            _context.Entry(course).State = EntityState.Modified;
-
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CourseExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return NoContent();
-        }
-
-        // POST: api/CaseRenterDeposits
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
-        [HttpPost]
-        public async Task<ActionResult<Course>> PostCourse(Course course)
-        {
-            _context.Courses.Add(course);
-            await _context.SaveChangesAsync();
-
-            return CreatedAtAction("GetCaseRenterDeposit", new { id = course.CourseId }, course);
-        }
-
-        // DELETE: api/CaseRenterDeposits/5
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Course>> DeleteCourse(int id)
-        {
-            var course = await _context.Courses.FindAsync(id);
-            if (course == null)
-            {
-                return NotFound();
-            }
-
-            _context.Courses.Remove(course);
-            await _context.SaveChangesAsync();
-
-            return course;
-        }
-
-        private bool CourseExists(int id)
-        {
-            return _context.Courses.Any(e => e.CourseId == id);
-        }
-
         // Below actions for wizard --->
         [HttpPost("Step1")]
-        public async Task<ActionResult<Course>> PostStep1(List<IFormFile> files, [FromForm] int courseId)
+        public async Task<ActionResult<Class>> PostStep1(List<IFormFile> files, [FromForm] int classId)
         {
-            var course = await _context.Courses.FirstAsync(c => c.CourseId == courseId);
-            if (course == null)
+            var c = await _context.Classes.FirstAsync(c => c.ClassId == classId);
+            if (c == null)
             {
                 return BadRequest();
             }
@@ -257,8 +171,8 @@ namespace CikguHub.Api
             resource.BlobName = blobName;
             resource.StoragePath = folderName + "/" + blobName;
 
-            course.ImageResource = resource;
-            course.ImageUrl = _configuration["Azure:BlobHost"] + resource.StoragePath;
+            c.ImageResource = resource;
+            c.ImageUrl = _configuration["Azure:BlobHost"] + resource.StoragePath;
 
             //Save results later...
 
@@ -272,44 +186,44 @@ namespace CikguHub.Api
             //Save all results
             await _context.SaveChangesAsync();
 
-            return Ok(course);
+            return Ok(c);
         }
 
         [HttpPost("Step2")]
-        public async Task<ActionResult<Course>> PostStep2([FromForm] CourseModel model)
+        public async Task<ActionResult<Class>> PostStep2([FromForm] ClassModel model)
         {
-            if (model.CourseId == 0)
+            if (model.ClassId == 0)
             {
                 return BadRequest();
             }
 
 
-            var course = await _context.Courses.FindAsync(model.CourseId);
+            var c = await _context.Classes.FindAsync(model.ClassId);
 
-            course = _mapper.Map<CourseModel, Course>(model, course);
+            c = _mapper.Map<ClassModel, Class>(model, c);
 
 
-            if (course.Status == CourseStatus.New)
+            if (c.Status == ClassStatus.New)
             {
-                course.Status = CourseStatus.Review;
-                await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Status, CourseStatus.Review);
+                c.Status = ClassStatus.Review;
+                await _activityLogger.LogCaseActivityAsync(c.ClassId, ActivityType.Status, ClassStatus.Review);
             }
             else
             {
-                await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Edited);
+                await _activityLogger.LogCaseActivityAsync(c.ClassId, ActivityType.Edited);
             }
 
-            _context.Entry(course).State = EntityState.Modified;
+            _context.Entry(c).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
 
-                await _activityLogger.LogCaseActivityAsync(model.CourseId, ActivityType.Edited);
+                await _activityLogger.LogCaseActivityAsync(model.ClassId, ActivityType.Edited);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CourseExists(course.CourseId))
+                if (!ClassExists(c.ClassId))
                 {
                     return NotFound();
                 }
@@ -319,31 +233,31 @@ namespace CikguHub.Api
                 }
             }
 
-            return Ok(course);
+            return Ok(c);
         }
 
         [HttpPost("Step3")]
-        public async Task<ActionResult<Course>> PostStep3([FromForm] CourseModel model)
+        public async Task<ActionResult<Class>> PostStep3([FromForm] ClassModel model)
         {
-            if (model.CourseId == 0)
+            if (model.ClassId == 0)
             {
                 return BadRequest();
             }
 
-            var course = await _context.Courses.FindAsync(model.CourseId);
+            var c = await _context.Classes.FindAsync(model.ClassId);
 
-            course = _mapper.Map<CourseModel, Course>(model, course);
-            _context.Entry(course).State = EntityState.Modified;
+            c = _mapper.Map<ClassModel, Class>(model, c);
+            _context.Entry(c).State = EntityState.Modified;
 
             try
             {
                 await _context.SaveChangesAsync();
 
-                await _activityLogger.LogCaseActivityAsync(model.CourseId, ActivityType.Edited);
+                await _activityLogger.LogCaseActivityAsync(model.ClassId, ActivityType.Edited);
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CourseExists(course.CourseId))
+                if (!ClassExists(c.ClassId))
                 {
                     return NotFound();
                 }
@@ -353,25 +267,25 @@ namespace CikguHub.Api
                 }
             }
 
-            return Ok(course);
+            return Ok(c);
         }
 
         [HttpPost("Step3")]
-        public async Task<ActionResult<Course>> PostFinal([FromForm] CourseModel model)
+        public async Task<ActionResult<Class>> PostFinal([FromForm] ClassModel model)
         {
-            if (model.CourseId == 0)
+            if (model.ClassId == 0)
             {
                 return BadRequest();
             }
 
-            var course = await _context.Courses.FindAsync(model.CourseId);
+            var c = await _context.Classes.FindAsync(model.ClassId);
 
-            course = _mapper.Map<CourseModel, Course>(model, course);
+            c = _mapper.Map<ClassModel, Class>(model, c);
 
-            course.Status = CourseStatus.Active;
-            await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Status, CourseStatus.Active);
+            c.Status = ClassStatus.Active;
+            await _activityLogger.LogCaseActivityAsync(c.ClassId, ActivityType.Status, ClassStatus.Active);
 
-            _context.Entry(course).State = EntityState.Modified;
+            _context.Entry(c).State = EntityState.Modified;
 
             try
             {
@@ -381,7 +295,7 @@ namespace CikguHub.Api
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CourseExists(course.CourseId))
+                if (!ClassExists(c.ClassId))
                 {
                     return NotFound();
                 }
@@ -391,7 +305,7 @@ namespace CikguHub.Api
                 }
             }
 
-            return Ok(course);
+            return Ok(c);
         }
     }
 }
