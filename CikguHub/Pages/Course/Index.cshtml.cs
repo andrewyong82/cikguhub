@@ -57,14 +57,14 @@ namespace CikguHub.Pages.Course
 
         public async Task<PartialViewResult> OnGetActivitiesPartial(int id)
         {
-            var activities = _activityLogger.GetCaseActivities(id);
+            var activities = _activityLogger.GetActivities(EntityType.Course, id);
 
             return Partial("Partials/_Notes", activities);
         }
 
         public async Task<PartialViewResult> OnGetActivityPartial(int id, string note)
         {
-            var activity = await _activityLogger.LogCaseActivityAsync(id, ActivityType.Note, note);
+            var activity = await _activityLogger.LogActivityAsync(EntityType.Course, id, ActivityType.Note, note);
 
             return Partial("Partials/_Timeline", activity);
         }

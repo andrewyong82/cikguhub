@@ -14,10 +14,12 @@ namespace CikguHub.Pages.Course
     public class SetupModel : PageModel
     {
         private readonly ApplicationDbContext _context;
+        private readonly IActivityLogger _activityLogger;
 
-        public SetupModel(ApplicationDbContext context)
+        public SetupModel(ApplicationDbContext context, IActivityLogger activityLogger)
         {
             _context = context;
+            _activityLogger = activityLogger;
         }
 
         [BindProperty]
@@ -52,6 +54,30 @@ namespace CikguHub.Pages.Course
             }
 
             return Page();
+        }
+
+        public async Task<PartialViewResult> OnGetNewClassPartial(int id, DateTime startDate)
+        {
+            Course = await _context.Courses
+            .FirstOrDefaultAsync(m => m.CourseId == id);
+
+            Data.Class c = new Data.Class();
+            c.StartTime = startDate;
+            c.Duration = Course.Duration;
+            c.Name = Course.Name;
+            c.Description = Course.Description;
+            c.Content = Course.Content;
+            c.ImageResourceId = Course.ImageResourceId;
+            c.VideoUrl = Course.VideoUrl;
+            c.ChatChannel = Course.ChatChannel;
+
+            _context.Add(c);
+
+            await _context.SaveChangesAsync();
+
+            await _activityLogger.LogActivityAsync(EntityType.Class, c.ClassId, ActivityType.Created);
+
+            return Partial("Partials/_NewClass", c);
         }
 
     }

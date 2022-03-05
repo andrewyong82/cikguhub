@@ -55,7 +55,7 @@ namespace CikguHub.Helpers
 
         public static string GetFolderName(this ClaimsPrincipal principal)
         {
-            return "user-" + principal.GetUserId().ToString("D8");
+            return "user-" + principal.GetUserId().ToString("D6");
         }
     }
 }

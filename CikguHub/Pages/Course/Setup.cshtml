@@ -216,7 +216,7 @@
                             },
                             Description: {
                                 required: true,
-                                rangelength: [2, 140]
+                                rangelength: [2, 280]
                             },
                             Tags: {
                                 required: true
@@ -365,7 +365,7 @@
 
         var input = document.getElementById("Tags");
         tagify = new Tagify(input, {
-            whitelist: ["Growth", "Leadership", "Pedagogy", "Career", "Mentoring", "Management"],
+            whitelist: ["Leadership (LD)", "Pedagogy (PG)", "Teacher Assessment (TA)", "Self-learning", "Video", "Live" ],
             maxTags: 10,
             dropdown: {
                 maxItems: 20,           // <- mixumum allowed rendered suggestions

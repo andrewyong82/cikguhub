@@ -165,7 +165,7 @@ namespace CikguHub.Api
             resource.ContentType = file.ContentType;
             resource.OwnerId = User.GetUserId();
 
-            string folderName = User.GetFolderName();
+            string folderName = "class-" + c.ClassId.ToString("D4");
             string blobName = DateTime.Now.ToString("yyyyMMddHHmmss") + "-" + fileName;
             resource.ContainerName = folderName;
             resource.BlobName = blobName;
@@ -206,11 +206,11 @@ namespace CikguHub.Api
             if (c.Status == ClassStatus.New)
             {
                 c.Status = ClassStatus.Review;
-                await _activityLogger.LogCaseActivityAsync(c.ClassId, ActivityType.Status, ClassStatus.Review);
+                await _activityLogger.LogActivityAsync(EntityType.Class, c.ClassId, ActivityType.Status, ClassStatus.Review);
             }
             else
             {
-                await _activityLogger.LogCaseActivityAsync(c.ClassId, ActivityType.Edited);
+                await _activityLogger.LogActivityAsync(EntityType.Class, c.ClassId, ActivityType.Edited);
             }
 
             _context.Entry(c).State = EntityState.Modified;
@@ -219,7 +219,7 @@ namespace CikguHub.Api
             {
                 await _context.SaveChangesAsync();
 
-                await _activityLogger.LogCaseActivityAsync(model.ClassId, ActivityType.Edited);
+                await _activityLogger.LogActivityAsync(EntityType.Class, model.ClassId, ActivityType.Edited);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -253,7 +253,7 @@ namespace CikguHub.Api
             {
                 await _context.SaveChangesAsync();
 
-                await _activityLogger.LogCaseActivityAsync(model.ClassId, ActivityType.Edited);
+                await _activityLogger.LogActivityAsync(EntityType.Class, model.ClassId, ActivityType.Edited);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -283,7 +283,7 @@ namespace CikguHub.Api
             c = _mapper.Map<ClassModel, Class>(model, c);
 
             c.Status = ClassStatus.Active;
-            await _activityLogger.LogCaseActivityAsync(c.ClassId, ActivityType.Status, ClassStatus.Active);
+            await _activityLogger.LogActivityAsync(EntityType.Class, c.ClassId, ActivityType.Status, ClassStatus.Active);
 
             _context.Entry(c).State = EntityState.Modified;
 

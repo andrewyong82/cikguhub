@@ -28,15 +28,13 @@ namespace CikguHub.Pages.Course
 
         public async Task<IActionResult> OnGetAsync()
         {
-            Data.Course course = new Data.Course
-            {
-                Status = CourseStatus.New
-            };
+            Data.Course course = new Data.Course();
+
             _context.Add(course);
 
             await _context.SaveChangesAsync();
 
-            await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Created);
+            await _activityLogger.LogActivityAsync(EntityType.Course, course.CourseId, ActivityType.Created);
 
             //ApplicationUser user = _userManager.GetUserAsync(User).Result;
             //await _signInManager.RefreshSignInAsync(user);

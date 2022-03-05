@@ -7,8 +7,9 @@ namespace CikguHub.Data
 {
     public enum EntityType
     {
-        Case = 1,
-        User = 2
+        User = 1,
+        Course = 2,
+        Class = 3
     }
 
     public enum ActivityType

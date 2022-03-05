@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace CikguHub.Data.Migrations
 {
-    public partial class Init : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -53,24 +53,6 @@ namespace CikguHub.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Courses",
-                columns: table => new
-                {
-                    CourseId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
-                    Status = table.Column<string>(nullable: true),
-                    Created = table.Column<DateTime>(nullable: false),
-                    Modified = table.Column<DateTime>(nullable: false),
-                    Deleted = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Courses", x => x.CourseId);
                 });
 
             migrationBuilder.CreateTable(
@@ -276,6 +258,39 @@ namespace CikguHub.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Courses",
+                columns: table => new
+                {
+                    CourseId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(nullable: true),
+                    Name = table.Column<string>(nullable: true),
+                    Objectives = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    ImageResourceId = table.Column<int>(nullable: true),
+                    VideoUrl = table.Column<string>(nullable: true),
+                    ChatChannel = table.Column<string>(nullable: true),
+                    Tags = table.Column<string>(nullable: true),
+                    Duration = table.Column<int>(nullable: false),
+                    Status = table.Column<string>(nullable: true),
+                    Created = table.Column<DateTime>(nullable: false),
+                    Modified = table.Column<DateTime>(nullable: false),
+                    Deleted = table.Column<bool>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Courses", x => x.CourseId);
+                    table.ForeignKey(
+                        name: "FK_Courses_Resources_ImageResourceId",
+                        column: x => x.ImageResourceId,
+                        principalTable: "Resources",
+                        principalColumn: "ResourceId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Classes",
                 columns: table => new
                 {
@@ -284,8 +299,18 @@ namespace CikguHub.Data.Migrations
                     CourseId = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
                     Duration = table.Column<int>(nullable: false),
+                    Name = table.Column<string>(nullable: true),
+                    Description = table.Column<string>(nullable: true),
+                    Content = table.Column<string>(nullable: true),
+                    ImageUrl = table.Column<string>(nullable: true),
+                    ImageResourceId = table.Column<int>(nullable: true),
+                    VideoUrl = table.Column<string>(nullable: true),
+                    ChatChannel = table.Column<string>(nullable: true),
+                    Tags = table.Column<string>(nullable: true),
+                    Status = table.Column<string>(nullable: true),
                     Created = table.Column<DateTime>(nullable: false),
-                    Modified = table.Column<DateTime>(nullable: false)
+                    Modified = table.Column<DateTime>(nullable: false),
+                    Deleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -296,6 +321,12 @@ namespace CikguHub.Data.Migrations
                         principalTable: "Courses",
                         principalColumn: "CourseId",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Classes_Resources_ImageResourceId",
+                        column: x => x.ImageResourceId,
+                        principalTable: "Resources",
+                        principalColumn: "ResourceId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -336,7 +367,6 @@ namespace CikguHub.Data.Migrations
                 {
                     EnrolmentId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CourseId = table.Column<int>(nullable: false),
                     ClassId = table.Column<int>(nullable: true),
                     UserId = table.Column<int>(nullable: false),
                     Created = table.Column<DateTime>(nullable: false),
@@ -352,12 +382,6 @@ namespace CikguHub.Data.Migrations
                         principalColumn: "ClassId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Enrolments_Courses_CourseId",
-                        column: x => x.CourseId,
-                        principalTable: "Courses",
-                        principalColumn: "CourseId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Enrolments_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
@@ -370,8 +394,8 @@ namespace CikguHub.Data.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { 1, "7781df8e-27e2-4848-a942-4d50ac268900", "Admin", "ADMIN" },
-                    { 2, "af6895ce-98fa-43df-8344-7960da795730", "Member", "MEMBER" }
+                    { 1, "5311e853-73f6-41d9-805f-6ed37b67a3c6", "Admin", "ADMIN" },
+                    { 2, "3a104f53-1371-4224-a9ff-e6ec2cdfa3b4", "Member", "MEMBER" }
                 });
 
             migrationBuilder.InsertData(
@@ -379,8 +403,8 @@ namespace CikguHub.Data.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "BannerUrl", "ConcurrencyStamp", "Created", "Description", "Email", "EmailConfirmed", "ImageUrl", "LockoutEnabled", "LockoutEnd", "Modified", "Name", "NormalizedEmail", "NormalizedUserName", "Organisation", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { 1, 0, null, "56372718-cb0a-4613-8a80-d3f6d1a4effa", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@fastLaw.my", true, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", "ADMIN@FASTLAW.MY", "ADMIN@FASTLAW.MY", null, "AQAAAAEAACcQAAAAEKSdYo0Ip4qq3Jbaa2lGdTYSOiRj695pewVFQAgnZMGt0083lpCURpIK2TgftLnH0Q==", null, false, "", false, "admin@fastlaw.my" },
-                    { 2, 0, null, "a56bba2b-9ce6-4bb4-a7ad-67994ab1250e", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "member@fastLaw.my", true, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Member", "MEMBER@FASTLAW.MY", "MEMBER@FASTLAW.MY", null, "AQAAAAEAACcQAAAAEGaKvqEHgGsZgjqkrtalsnDG7zWfPEC4/SG7wJ60yvk8GmMSBfohv5PnMVRPlcFiCg==", null, false, "", false, "member@fastLaw.my" }
+                    { 1, 0, null, "3a9b028c-4e4e-4837-bcee-b23b4ff47e71", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "admin@fastLaw.my", true, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Admin", "ADMIN@FASTLAW.MY", "ADMIN@FASTLAW.MY", null, "AQAAAAEAACcQAAAAEA8STdaag7AqzspDMPiWN2yGOxCPG8B5XBxH0WyDpWfkfb41MOiwCH6eXcvO/pmirA==", null, false, "", false, "admin@fastlaw.my" },
+                    { 2, 0, null, "2fdcf757-cb67-4ff2-86a4-b636c387a60d", new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "member@fastLaw.my", true, null, false, null, new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), "Member", "MEMBER@FASTLAW.MY", "MEMBER@FASTLAW.MY", null, "AQAAAAEAACcQAAAAEArMxiaoSC+wjs112UtzkcGW93JCvaSZBfuttG2WbTDb8/y4xQSoBgTL50NqVyDw2g==", null, false, "", false, "member@fastLaw.my" }
                 });
 
             migrationBuilder.InsertData(
@@ -443,14 +467,19 @@ namespace CikguHub.Data.Migrations
                 column: "CourseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Classes_ImageResourceId",
+                table: "Classes",
+                column: "ImageResourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Courses_ImageResourceId",
+                table: "Courses",
+                column: "ImageResourceId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Enrolments_ClassId",
                 table: "Enrolments",
                 column: "ClassId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Enrolments_CourseId",
-                table: "Enrolments",
-                column: "CourseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Enrolments_UserId",
@@ -508,9 +537,6 @@ namespace CikguHub.Data.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
-                name: "Resources");
-
-            migrationBuilder.DropTable(
                 name: "Subscriptions");
 
             migrationBuilder.DropTable(
@@ -520,10 +546,13 @@ namespace CikguHub.Data.Migrations
                 name: "Classes");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "Courses");
 
             migrationBuilder.DropTable(
-                name: "Courses");
+                name: "Resources");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

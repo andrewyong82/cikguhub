@@ -33,8 +33,6 @@ namespace CikguHub.Data
 
         public int Duration { get; set; }
 
-        public string Language { get; set; } = Data.Language.EN;
-
         public string Name { get; set; }
 
         public string Description { get; set; }

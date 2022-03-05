@@ -167,7 +167,7 @@ namespace CikguHub.Api
             resource.ContentType = file.ContentType;
             resource.OwnerId = User.GetUserId();
 
-            string folderName = User.GetFolderName();
+            string folderName = "course-" + course.CourseId.ToString("D4");
             string blobName = DateTime.Now.ToString("yyyyMMddHHmmss") + "-" + fileName;
             resource.ContainerName = folderName;
             resource.BlobName = blobName;
@@ -208,11 +208,11 @@ namespace CikguHub.Api
             if (course.Status == CourseStatus.New)
             {
                 course.Status = CourseStatus.Review;
-                await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Status, CourseStatus.Review);
+                await _activityLogger.LogActivityAsync(EntityType.Course, course.CourseId, ActivityType.Status, CourseStatus.Review);
             }
             else
             {
-                await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Edited);
+                await _activityLogger.LogActivityAsync(EntityType.Course, course.CourseId, ActivityType.Edited);
             }
 
             _context.Entry(course).State = EntityState.Modified;
@@ -221,7 +221,7 @@ namespace CikguHub.Api
             {
                 await _context.SaveChangesAsync();
 
-                await _activityLogger.LogCaseActivityAsync(model.CourseId, ActivityType.Edited);
+                await _activityLogger.LogActivityAsync(EntityType.Course, model.CourseId, ActivityType.Edited);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -255,7 +255,7 @@ namespace CikguHub.Api
             {
                 await _context.SaveChangesAsync();
 
-                await _activityLogger.LogCaseActivityAsync(model.CourseId, ActivityType.Edited);
+                await _activityLogger.LogActivityAsync(EntityType.Course, model.CourseId, ActivityType.Edited);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -285,7 +285,7 @@ namespace CikguHub.Api
             course = _mapper.Map<CourseModel, Course>(model, course);
 
             course.Status = CourseStatus.Active;
-            await _activityLogger.LogCaseActivityAsync(course.CourseId, ActivityType.Status, CourseStatus.Active);
+            await _activityLogger.LogActivityAsync(EntityType.Course, course.CourseId, ActivityType.Status, CourseStatus.Active);
 
             _context.Entry(course).State = EntityState.Modified;
 

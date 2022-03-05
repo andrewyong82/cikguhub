@@ -36,7 +36,7 @@ namespace CikguHub.Pages.Class
 
             await _context.SaveChangesAsync();
 
-            await _activityLogger.LogCaseActivityAsync(c.ClassId, ActivityType.Created);
+            await _activityLogger.LogActivityAsync(EntityType.Class, c.ClassId, ActivityType.Created);
 
             //ApplicationUser user = _userManager.GetUserAsync(User).Result;
             //await _signInManager.RefreshSignInAsync(user);

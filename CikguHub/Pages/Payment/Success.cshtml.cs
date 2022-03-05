@@ -39,7 +39,7 @@ namespace CikguHub.Pages.Payment
 
             await _context.SaveChangesAsync();
 
-            await _activityLogger.LogCaseActivityAsync(Payment.Case.CourseId, ActivityType.Status, CourseStatus.Active);
+            await _activityLogger.LogActivityAsync(EntityType.Course, Payment.Case.CourseId, ActivityType.Status, CourseStatus.Active);
 
             return RedirectToPage("/Case/RenterDeposit/Index", new { id = Payment.CaseId });
         }

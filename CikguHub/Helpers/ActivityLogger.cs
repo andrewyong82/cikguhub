@@ -8,8 +8,8 @@ namespace CikguHub.Helpers
 {
     public interface IActivityLogger
     {
-        Task<Activity> LogCaseActivityAsync(int caseId, ActivityType activityType, string data = null, int? userId = null);
-        List<Activity> GetCaseActivities(int caseId);
+        Task<Activity> LogActivityAsync(EntityType entityType, int entityId, ActivityType activityType, string data = null, int? userId = null);
+        List<Activity> GetActivities(EntityType entityType, int entityId);
         void DeleteActivity(int activityId);
     }
 
@@ -22,11 +22,11 @@ namespace CikguHub.Helpers
             _context = context;
         }
 
-        public async Task<Activity> LogCaseActivityAsync(int caseId, ActivityType activityType, string data = null, int? userId = null)
+        public async Task<Activity> LogActivityAsync(EntityType entityType, int entityId, ActivityType activityType, string data = null, int? userId = null)
         {
             Activity activity = new Activity();
-            activity.EntityType = EntityType.Case;
-            activity.SubjectId = caseId;
+            activity.EntityType = entityType;
+            activity.SubjectId = entityId;
             activity.ActivityType = activityType;
             activity.Data = data;
             activity.ActorId = userId;
@@ -37,9 +37,9 @@ namespace CikguHub.Helpers
             return activity;
         }
 
-        public List<Activity> GetCaseActivities(int caseId)
+        public List<Activity> GetActivities(EntityType entityType, int entityId)
         {
-            var activities = _context.Activities.Where(a => a.EntityType == EntityType.Case && a.SubjectId == caseId && !a.Deleted).OrderBy(a => a.Created).ToList();
+            var activities = _context.Activities.Where(a => a.EntityType == entityType && a.SubjectId == entityId && !a.Deleted).OrderBy(a => a.Created).ToList();
 
             return activities;
         }

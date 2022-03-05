@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CikguHub.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220224183429_course")]
-    partial class course
+    [Migration("20220305101802_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.21")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -154,7 +154,7 @@ namespace CikguHub.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e041642f-4848-4be6-90c6-3250edcfbfbe",
+                            ConcurrencyStamp = "3a9b028c-4e4e-4837-bcee-b23b4ff47e71",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "admin@fastLaw.my",
                             EmailConfirmed = true,
@@ -163,7 +163,7 @@ namespace CikguHub.Data.Migrations
                             Name = "Admin",
                             NormalizedEmail = "ADMIN@FASTLAW.MY",
                             NormalizedUserName = "ADMIN@FASTLAW.MY",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPcP5TPLB2ZXechiYds7Ql6Eqk9b9wSTEv4eUvC0tgtFLbUCXe0Ef/Wliao4A8EWoA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEA8STdaag7AqzspDMPiWN2yGOxCPG8B5XBxH0WyDpWfkfb41MOiwCH6eXcvO/pmirA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -173,7 +173,7 @@ namespace CikguHub.Data.Migrations
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "03bcd478-0343-44c8-82ee-0d36d4a63407",
+                            ConcurrencyStamp = "2fdcf757-cb67-4ff2-86a4-b636c387a60d",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "member@fastLaw.my",
                             EmailConfirmed = true,
@@ -182,7 +182,7 @@ namespace CikguHub.Data.Migrations
                             Name = "Member",
                             NormalizedEmail = "MEMBER@FASTLAW.MY",
                             NormalizedUserName = "MEMBER@FASTLAW.MY",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPRY9H6+IcRksO4uxRY+X/yxX4EOtLlA6Q8vxPU5x4R8Mhj+eN/0tJxEOidFFH3Few==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEArMxiaoSC+wjs112UtzkcGW93JCvaSZBfuttG2WbTDb8/y4xQSoBgTL50NqVyDw2g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -197,6 +197,12 @@ namespace CikguHub.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("ChatChannel")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Content")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("CourseId")
                         .HasColumnType("int");
 
@@ -206,18 +212,41 @@ namespace CikguHub.Data.Migrations
                     b.Property<bool>("Deleted")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("Duration")
                         .HasColumnType("int");
+
+                    b.Property<int?>("ImageResourceId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ImageUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Modified")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Tags")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("VideoUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ClassId");
 
                     b.HasIndex("CourseId");
+
+                    b.HasIndex("ImageResourceId");
 
                     b.ToTable("Classes");
                 });
@@ -232,6 +261,9 @@ namespace CikguHub.Data.Migrations
                     b.Property<string>("ChatChannel")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Code")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
@@ -244,7 +276,7 @@ namespace CikguHub.Data.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Duration")
+                    b.Property<int>("Duration")
                         .HasColumnType("int");
 
                     b.Property<int?>("ImageResourceId")
@@ -257,6 +289,9 @@ namespace CikguHub.Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Objectives")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Status")
@@ -285,9 +320,6 @@ namespace CikguHub.Data.Migrations
                     b.Property<int?>("ClassId")
                         .HasColumnType("int");
 
-                    b.Property<int>("CourseId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
 
@@ -300,8 +332,6 @@ namespace CikguHub.Data.Migrations
                     b.HasKey("EnrolmentId");
 
                     b.HasIndex("ClassId");
-
-                    b.HasIndex("CourseId");
 
                     b.HasIndex("UserId");
 
@@ -483,14 +513,14 @@ namespace CikguHub.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "e21d03b2-0f2f-4666-ba90-659683c78f20",
+                            ConcurrencyStamp = "5311e853-73f6-41d9-805f-6ed37b67a3c6",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "b9a6b9f1-ae01-47f8-a8f3-f10237f7d9a7",
+                            ConcurrencyStamp = "3a104f53-1371-4224-a9ff-e6ec2cdfa3b4",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });
@@ -627,6 +657,10 @@ namespace CikguHub.Data.Migrations
                         .HasForeignKey("CourseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("CikguHub.Data.Resource", "ImageResource")
+                        .WithMany()
+                        .HasForeignKey("ImageResourceId");
                 });
 
             modelBuilder.Entity("CikguHub.Data.Course", b =>
@@ -639,14 +673,8 @@ namespace CikguHub.Data.Migrations
             modelBuilder.Entity("CikguHub.Data.Enrolment", b =>
                 {
                     b.HasOne("CikguHub.Data.Class", "Class")
-                        .WithMany()
+                        .WithMany("Enrolments")
                         .HasForeignKey("ClassId");
-
-                    b.HasOne("CikguHub.Data.Course", "Course")
-                        .WithMany()
-                        .HasForeignKey("CourseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
 
                     b.HasOne("CikguHub.Data.ApplicationUser", "User")
                         .WithMany()
