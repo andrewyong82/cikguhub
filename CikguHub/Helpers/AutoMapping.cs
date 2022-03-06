@@ -14,6 +14,8 @@ namespace CikguHub.Helpers
         {
             CreateMap<Course, CourseModel>();
             CreateMap<CourseModel, Course>();
+            CreateMap<Class, ClassModel>();
+            CreateMap<ClassModel, Class>();
         }
     }
 }
