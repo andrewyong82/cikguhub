@@ -272,7 +272,7 @@ namespace CikguHub.Api
             return Ok(course);
         }
 
-        [HttpPost("Step3")]
+        [HttpPost("Final")]
         public async Task<ActionResult<Course>> PostFinal([FromForm] CourseModel model)
         {
             if (model.CourseId == 0)

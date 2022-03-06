@@ -19,16 +19,16 @@
         </div>
     </td>
     <td class="pl-0">
-        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">The School Art Leads</a>
-        <span class="text-muted font-weight-bold d-block">By Ellie Cole</span>
+        <a href="#" class="text-dark-75 font-weight-bolder text-hover-primary mb-1 font-size-lg">@Model.Name</a>
+        <span class="text-muted font-weight-bold d-block">@Model.Status</span>
     </td>
     <td></td>
-    <td class="text-left">
-        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">03 Sep, 4:20PM</span>
-        <span class="text-muted font-weight-bold d-block font-size-sm">Time</span>
+    <td class="text-right">
+        <span class="text-dark-75 font-weight-bolder d-block font-size-lg">@Model.StartTime.ToString("ddd dd MMMM yyyy, hh:mm tt")</span>
+        <span class="text-muted font-weight-bold d-block font-size-sm">@Model.Duration minutes</span>
     </td>
     <td class="text-right pr-0">
-        <a href="#" class="btn btn-icon btn-light btn-sm">
+        <a asp-area="" asp-page="/Class/Setup" asp-route-id="@Model.ClassId" class="btn btn-icon btn-light btn-sm">
             <span class="svg-icon svg-icon-md svg-icon-success">
                 <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Navigation/Arrow-right.svg-->
                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">

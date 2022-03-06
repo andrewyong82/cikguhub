@@ -11,6 +11,10 @@ namespace CikguHub.Api.Model
     {
         public int ClassId { get; set; }
 
+        public DateTime StartTime { get; set; }
+
+        public int Duration { get; set; }
+
         public string Name { get; set; }
 
         public string Description { get; set; }
@@ -23,9 +27,7 @@ namespace CikguHub.Api.Model
 
         public string Tags { get; set; }
 
-        public int? Duration { get; set; }
-
-        public Course Course { get; set; }
+        public int CourseId { get; set; }
 
         public ClassModel() { }
 

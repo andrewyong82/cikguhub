@@ -56,20 +56,23 @@ namespace CikguHub.Pages.Course
             return Page();
         }
 
-        public async Task<PartialViewResult> OnGetNewClassPartial(int id, DateTime startDate)
+        public async Task<PartialViewResult> OnGetNewClassPartial(int id, DateTime startTime)
         {
             Course = await _context.Courses
             .FirstOrDefaultAsync(m => m.CourseId == id);
 
             Data.Class c = new Data.Class();
-            c.StartTime = startDate;
+            c.StartTime = startTime;
             c.Duration = Course.Duration;
             c.Name = Course.Name;
             c.Description = Course.Description;
             c.Content = Course.Content;
             c.ImageResourceId = Course.ImageResourceId;
+            c.ImageUrl = Course.ImageUrl;
             c.VideoUrl = Course.VideoUrl;
             c.ChatChannel = Course.ChatChannel;
+
+            c.CourseId = id;
 
             _context.Add(c);
 
@@ -77,7 +80,7 @@ namespace CikguHub.Pages.Course
 
             await _activityLogger.LogActivityAsync(EntityType.Class, c.ClassId, ActivityType.Created);
 
-            return Partial("Partials/_NewClass", c);
+            return Partial("Partials/_Class", c);
         }
 
     }

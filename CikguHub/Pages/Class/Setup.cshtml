@@ -216,7 +216,7 @@
                             },
                             Description: {
                                 required: true,
-                                rangelength: [2, 140]
+                                rangelength: [2, 280]
                             },
                             Tags: {
                                 required: true
@@ -256,6 +256,7 @@
                     });
 
                     if ($(_formEl).valid()) {
+                        $("#Content").val(tinymce.activeEditor.getContent());
                         var data = $(_formEl).serialize();
                         $.ajax({
                             url: "/api/classes/step3",
@@ -352,7 +353,8 @@
                     menubar: false,
                     statusbar: false,
                     toolbar: [ 'undo redo restoredraft | cut copy paste | bold italic | link image media | bullist numlist | advlist | autolink | lists'],
-                    plugins: 'advlist autolink link image media lists autoresize autosave'
+                    plugins: 'advlist autolink link image media lists autoresize autosave',
+                    autosave_ask_before_unload: false
                 });
             }
         };
@@ -372,7 +374,8 @@
                 classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
                 enabled: 0,             // <- show suggestions on focus
                 closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
-            }
+            },
+            originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
         })
 
         autosize(document.getElementById("Description"));

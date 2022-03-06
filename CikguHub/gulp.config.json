@@ -101,6 +101,15 @@
                         }
                     },
                   "optional": {
+                    "tempusdominus-bootstrap-4": {
+                      "styles": [
+                        "{$config.path.node_modules}/tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.css"
+                      ],
+                      "scripts": [
+                        "{$config.path.node_modules}/tempusdominus-bootstrap-4/build/js/tempusdominus-bootstrap-4.js",
+                        "{$config.path.src}/js/vendors/plugins/tempusdominus-bootstrap-4.init.js"
+                      ]
+                    },
                     "inputmask": {
                       "scripts": [
                         "{$config.path.node_modules}/inputmask/dist/jquery.inputmask.js"

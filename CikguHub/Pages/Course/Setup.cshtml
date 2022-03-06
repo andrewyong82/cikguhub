@@ -214,7 +214,7 @@
                             Name: {
                                 required: true
                             },
-                            Description: {
+                            Objectives: {
                                 required: true,
                                 rangelength: [2, 280]
                             },
@@ -256,6 +256,7 @@
                     });
 
                     if ($(_formEl).valid()) {
+                        $("#Content").val(tinymce.activeEditor.getContent());
                         var data = $(_formEl).serialize();
                         $.ajax({
                             url: "/api/courses/step3",
@@ -351,8 +352,14 @@
                     selector: '#Content',
                     menubar: false,
                     statusbar: false,
-                    toolbar: [ 'undo redo restoredraft | cut copy paste | bold italic | link image media | bullist numlist | advlist | autolink | lists'],
-                    plugins: 'advlist autolink link image media lists autoresize autosave'
+                    toolbar: [ 'undo redo restoredraft | cut copy paste | bold italic | link image media | bullist numlist | advlist | autolink | lists' ],
+                    plugins: 'advlist autolink link image media lists autoresize autosave',
+                    autosave_ask_before_unload: false
+                    //setup: function (editor) {
+                    //    editor.on('change', function () {
+                    //        tinymce.triggerSave();
+                    //    });
+                    //}
                 });
             }
         };
@@ -372,14 +379,24 @@
                 classname: "tags-look", // <- custom classname for this dropdown, so it could be targeted
                 enabled: 0,             // <- show suggestions on focus
                 closeOnSelect: false    // <- do not hide the suggestions dropdown once an item has been selected
-            }
+            },
+                originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
         })
 
+        autosize(document.getElementById("Objectives"));
         autosize(document.getElementById("Description"));
+
+        $('#StartTime').datetimepicker();
     });
 
+    function addClass() {
+        fetch(window.location.pathname + '?handler=NewClassPartial&startTime=' + encodeURIComponent($('#StartTime > input').val()))
+            .then((response) => {
+                $('#classes').append(response);
+                $('#StartTime > input').val('');
+            });
+    };
     </script>
-
 }
 
 <!--begin::Subheader-->
