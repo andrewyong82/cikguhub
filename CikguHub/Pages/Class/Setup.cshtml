@@ -303,7 +303,7 @@
                         return response.json();
                     })
                     .then(function (session) {
-                        window.location.href = window.location.href.split("setup")[0];
+                        window.location.href = window.location.href.substr(0, window.location.href.indexOf("setup"));
                         location.reload();
                     })
                     .then(function (result) {

@@ -1,7 +1,7 @@
 ﻿@page
 @model CikguHub.Pages.Class.ListModel
 @{
-    ViewData["Title"] = "Classs";
+    ViewData["Title"] = "Classes";
     ViewData["Subtitle"] = Model.Classs.Count + " Total";
 }
 
@@ -81,9 +81,9 @@
                                             <ul class="navi navi-hover">
                                                 <li class="navi-item">
                                                     <a asp-area="" asp-page="/Class/Setup" asp-route-id="@item.ClassId" class="navi-link">
-                                                        <span class="navi-icon">
+                                                        @*<span class="navi-icon">
                                                             <i class="flaticon2-shopping-cart-1"></i>
-                                                        </span>
+                                                        </span>*@
                                                         <span class="navi-text">Setup</span>
                                                     </a>
                                                 </li>
@@ -101,12 +101,12 @@
                             <!--begin::Data-->
                             <div class="d-flex mb-5">
                                 <div class="d-flex align-items-center mr-7">
-                                    <span class="font-weight-bold mr-4">Start</span>
-                                    <span class="btn btn-light-primary btn-sm font-weight-bold btn-upper btn-text">@item.StartTime.ToString("ddd dd MMMM yyyy, hh:mm tt")</span>
+                                    <span class="font-weight-bold mr-4">Start:</span>
+                                    <span class="font-weight-bold">@item.StartTime.ToString("ddd dd MMMM yyyy, hh:mm tt")</span>
                                 </div>
                                 <div class="d-flex align-items-center">
-                                    <span class="font-weight-bold mr-4">Duration</span>
-                                    <span class="btn btn-light-danger btn-sm font-weight-bold btn-upper btn-text">@item.Duration</span>
+                                    <span class="font-weight-bold mr-4">Duration:</span>
+                                    <span class="font-weight-bold">@item.Duration minutes</span>
                                 </div>
                             </div>
                             <!--end::Data-->
