@@ -49,7 +49,7 @@ namespace CikguHub.Pages.Course
             if (Course.Status == CourseStatus.New)
                 return RedirectToPage("/course/setup", new { id = Course.CourseId });
 
-            if (Course.Status == CourseStatus.Active)
+            if (Course.Status == CourseStatus.Review)
                 return Redirect("/course/" + Course.CourseId.ToString() + "/setup#4");
 
             return Page();

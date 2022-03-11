@@ -38,7 +38,7 @@ namespace CikguHub.Pages.Class
             //}
 
             Class = await _context.Classes
-                .Include(c => c.Course)
+                .Include(c => c.Course.Classes)
                 .FirstOrDefaultAsync(m => m.ClassId == id);
 
             if (Class == null)
@@ -49,7 +49,7 @@ namespace CikguHub.Pages.Class
             if (Class.Status == ClassStatus.New)
                 return RedirectToPage("/class/setup", new { id = Class.ClassId });
 
-            if (Class.Status == ClassStatus.Active)
+            if (Class.Status == ClassStatus.Review)
                 return Redirect("/class/" + Class.ClassId.ToString() + "/setup#4");
 
             return Page();
