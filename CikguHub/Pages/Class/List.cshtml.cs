@@ -23,12 +23,14 @@ namespace CikguHub.Pages.Class
         }
 
         [BindProperty]
-        public List<Data.Class> Classs { get; set; }
+        public List<Data.Class> Classes { get; set; }
 
         public async Task<IActionResult> OnGetAsync()
         {
 
-            Classs = await _context.Classes.ToListAsync();
+            Classes = await _context.Classes
+                .Include(c => c.Course)
+                .ToListAsync();
 
             return Page();
         }

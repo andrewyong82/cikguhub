@@ -2,7 +2,7 @@
 @model CikguHub.Pages.Class.ListModel
 @{
     ViewData["Title"] = "Classes";
-    ViewData["Subtitle"] = Model.Classs.Count + " Total";
+    ViewData["Subtitle"] = Model.Classes.Count + " Total";
 }
 
 @section Styles
@@ -16,7 +16,7 @@
     <script>
         jQuery(document).ready(function () {
 
-        };
+        });
     </script>
 
 }
@@ -29,23 +29,22 @@
     <!--begin::Container-->
     <div class="container">
 
-        <a asp-area="" asp-page="/Class/New" class="btn btn-primary font-weight-bolder my-5">
-            <span class="svg-icon svg-icon-md">
-                <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/Flatten.svg-->
-                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
-                    <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-                        <rect x="0" y="0" width="24" height="24"></rect>
-                        <circle fill="#000000" cx="9" cy="15" r="6"></circle>
-                        <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3"></path>
-                    </g>
-                </svg>
-                <!--end::Svg Icon-->
-            </span>Add a new Class
-        </a>
-
+        <!--<a asp-area="" asp-page="/Class/New" class="btn btn-primary font-weight-bolder my-5">
+            <span class="svg-icon svg-icon-md">-->
+        <!--begin::Svg Icon | path:/metronic/theme/html/demo1/dist/assets/media/svg/icons/Design/Flatten.svg-->
+        <!--<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24px" height="24px" viewBox="0 0 24 24" version="1.1">
+            <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+                <rect x="0" y="0" width="24" height="24"></rect>
+                <circle fill="#000000" cx="9" cy="15" r="6"></circle>
+                <path d="M8.8012943,7.00241953 C9.83837775,5.20768121 11.7781543,4 14,4 C17.3137085,4 20,6.6862915 20,10 C20,12.2218457 18.7923188,14.1616223 16.9975805,15.1987057 C16.9991904,15.1326658 17,15.0664274 17,15 C17,10.581722 13.418278,7 9,7 C8.93357256,7 8.86733422,7.00080962 8.8012943,7.00241953 Z" fill="#000000" opacity="0.3"></path>
+            </g>
+        </svg>-->
+        <!--end::Svg Icon-->
+        <!--</span>Add a new Class
+        </a>-->
         <!--begin::Row-->
         <div class="row">
-            @foreach (Class item in Model.Classs)
+            @foreach (Class item in Model.Classes)
             {
                 <div class="col-xl-4">
                     <!--begin::Card-->
@@ -64,7 +63,7 @@
                                     <!--begin: Title-->
                                     <div class="d-flex flex-column mr-auto">
                                         <a asp-area="" asp-page="/Class/Index" asp-route-id="@item.ClassId" class="text-dark text-hover-primary font-size-h4 font-weight-bolder mb-1">@item.Name</a>
-                                        @*<span class="text-muted font-weight-bold">Creates Limitless possibilities</span>*@
+                                        <span class="text-muted font-weight-bold">@item.Tags</span>
                                     </div>
                                     <!--end::Title-->
                                 </div>
@@ -82,8 +81,8 @@
                                                 <li class="navi-item">
                                                     <a asp-area="" asp-page="/Class/Setup" asp-route-id="@item.ClassId" class="navi-link">
                                                         @*<span class="navi-icon">
-                                                            <i class="flaticon2-shopping-cart-1"></i>
-                                                        </span>*@
+                                                                <i class="flaticon2-shopping-cart-1"></i>
+                                                            </span>*@
                                                         <span class="navi-text">Setup</span>
                                                     </a>
                                                 </li>
@@ -112,18 +111,26 @@
                             <!--end::Data-->
                             <!--begin::Progress-->
                             @*<div class="d-flex mb-5 align-items-cente">
-                                <span class="d-block font-weight-bold mr-5">Progress</span>
-                                <div class="d-flex flex-row-fluid align-items-center">
-                                    <div class="progress progress-xs mt-2 mb-2 w-100">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 59%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <span class="d-block font-weight-bold mr-5">Progress</span>
+                                    <div class="d-flex flex-row-fluid align-items-center">
+                                        <div class="progress progress-xs mt-2 mb-2 w-100">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 59%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                        <span class="ml-3 font-weight-bolder">59%</span>
                                     </div>
-                                    <span class="ml-3 font-weight-bolder">59%</span>
-                                </div>
-                            </div>*@
+                                </div>*@
                             <!--ebd::Progress-->
                         </div>
                         <!--end::Body-->
                         <!--begin::Footer-->
+                        <div class="card-footer d-flex align-items-center">
+                            <div class="d-flex">
+                                <div class="d-flex align-items-left mr-7">
+                                    <span class="text-muted font-weight-bold">@item.Course.Code:  @item.Course.Name</span>
+                                </div>
+                            </div>
+                        </div>
+
                         <!--<div class="card-footer d-flex align-items-center">
                             <div class="d-flex">
                                 <div class="d-flex align-items-center mr-7">
@@ -165,39 +172,39 @@
         <!--end::Row-->
         <!--begin::Pagination-->
         @*<div class="d-flex justify-content-between align-items-center flex-wrap">
-            <div class="d-flex flex-wrap mr-3">
-                <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
-                    <i class="ki ki-bold-double-arrow-back icon-xs"></i>
-                </a>
-                <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
-                    <i class="ki ki-bold-arrow-back icon-xs"></i>
-                </a>
-                <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
-                <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">23</a>
-                <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary active mr-2 my-1">24</a>
-                <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">25</a>
-                <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">26</a>
-                <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">27</a>
-                <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">28</a>
-                <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
-                <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
-                    <i class="ki ki-bold-arrow-next icon-xs"></i>
-                </a>
-                <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
-                    <i class="ki ki-bold-double-arrow-next icon-xs"></i>
-                </a>
-            </div>
-            <div class="d-flex align-items-center">
-                <select class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light-primary" style="width: 75px;">
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-                <span class="text-muted">Displaying 10 of 230 records</span>
-            </div>
-        </div>*@
+                <div class="d-flex flex-wrap mr-3">
+                    <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
+                        <i class="ki ki-bold-double-arrow-back icon-xs"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
+                        <i class="ki ki-bold-arrow-back icon-xs"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
+                    <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">23</a>
+                    <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary active mr-2 my-1">24</a>
+                    <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">25</a>
+                    <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">26</a>
+                    <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">27</a>
+                    <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">28</a>
+                    <a href="#" class="btn btn-icon btn-sm border-0 btn-hover-primary mr-2 my-1">...</a>
+                    <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
+                        <i class="ki ki-bold-arrow-next icon-xs"></i>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-sm btn-light-primary mr-2 my-1">
+                        <i class="ki ki-bold-double-arrow-next icon-xs"></i>
+                    </a>
+                </div>
+                <div class="d-flex align-items-center">
+                    <select class="form-control form-control-sm text-primary font-weight-bold mr-4 border-0 bg-light-primary" style="width: 75px;">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span class="text-muted">Displaying 10 of 230 records</span>
+                </div>
+            </div>*@
         <!--end::Pagination-->
     </div>
     <!--end::Container-->
