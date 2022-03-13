@@ -55,25 +55,11 @@ namespace CikguHub.Pages.Class
             return Page();
         }
 
-        public async Task<PartialViewResult> OnGetActivitiesPartial(int id)
+        public async Task<PartialViewResult> OnGetEnrolPartial(int id)
         {
             var activities = _activityLogger.GetActivities(EntityType.Class, id);
 
             return Partial("Partials/_Notes", activities);
-        }
-
-        public async Task<PartialViewResult> OnGetActivityPartial(int id, string note)
-        {
-            var activity = await _activityLogger.LogActivityAsync(EntityType.Class, id, ActivityType.Note, note);
-
-            return Partial("Partials/_Timeline", activity);
-        }
-
-        public async Task<ActionResult> OnGetDeleteActivity(int activityId)
-        {
-            _activityLogger.DeleteActivity(activityId);
-
-            return new OkResult();
         }
     }
 }
