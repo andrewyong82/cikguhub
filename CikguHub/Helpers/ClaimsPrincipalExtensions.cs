@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Text.Json;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using CikguHub.Api.Model;
 
 namespace CikguHub.Helpers
 {
@@ -34,23 +35,23 @@ namespace CikguHub.Helpers
             return currentUserId == id;
         }
 
-        public static List<Course> GetUserCases(this ClaimsPrincipal principal)
+        public static List<EnrolmentModel> GetUserEnrolments(this ClaimsPrincipal principal)
         {
-            var caseClaims = principal.FindAll("Case");
+            var claims = principal.FindAll("Enrolment");
 
-            List<Course> cases = new List<Course>();
-            foreach (var caseClaim in caseClaims)
+            List<EnrolmentModel> enrolments = new List<EnrolmentModel>();
+            foreach (var claim in claims)
             {
-                cases.Add((Course)JsonSerializer.Deserialize(caseClaim.Value, typeof(Course)));
+                enrolments.Add((EnrolmentModel)JsonSerializer.Deserialize(claim.Value, typeof(EnrolmentModel)));
             }
 
-            return cases;
+            return enrolments;
         }
 
-        public static bool HasCase(this ClaimsPrincipal principal, int caseId)
+        public static bool HasClass(this ClaimsPrincipal principal, int classId)
         {
-            var cases = principal.GetUserCases();
-            return cases.Exists(c => c.CourseId == caseId);
+            var cases = principal.GetUserEnrolments();
+            return cases.Exists(c => c.ClassId == classId);
         }
 
         public static string GetFolderName(this ClaimsPrincipal principal)

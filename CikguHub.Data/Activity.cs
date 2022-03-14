@@ -9,7 +9,8 @@ namespace CikguHub.Data
     {
         User = 1,
         Course = 2,
-        Class = 3
+        Class = 3,
+        Enrolment = 4
     }
 
     public enum ActivityType

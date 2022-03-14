@@ -26,6 +26,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Class\New.cshtml.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Pages\Class\New.cshtml" />
     <Content Remove="Pages\Course\Partials\_Delivery.cshtml" />
     <Content Remove="Pages\Course\Partials\_Details.cshtml" />
     <Content Remove="Pages\Course\Partials\_Document.cshtml" />

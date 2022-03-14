@@ -15,11 +15,15 @@ namespace CikguHub.Pages.Class
     {
         private readonly CikguHub.Data.ApplicationDbContext _context;
         private readonly IActivityLogger _activityLogger;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public IndexModel(ApplicationDbContext context, IActivityLogger activityLogger)
+        public IndexModel(ApplicationDbContext context, IActivityLogger activityLogger, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _activityLogger = activityLogger;
+            _signInManager = signInManager;
+            _userManager = userManager;
         }
 
         [BindProperty]
@@ -55,11 +59,24 @@ namespace CikguHub.Pages.Class
             return Page();
         }
 
-        public async Task<PartialViewResult> OnGetEnrolPartial(int id)
+        public async Task<IActionResult> OnPostAsync(int id)
         {
-            var activities = _activityLogger.GetActivities(EntityType.Class, id);
+            Data.Enrolment c = new Data.Enrolment
+            {
+                Status = EnrolmentStatus.Active, //Depends on whether they pay?
+                ClassId = id,
+                UserId = User.GetUserId(),
+            };
+            _context.Add(c);
 
-            return Partial("Partials/_Notes", activities);
+            await _context.SaveChangesAsync();
+
+            await _activityLogger.LogActivityAsync(EntityType.Enrolment, c.EnrolmentId, ActivityType.Created);
+
+            ApplicationUser user = _userManager.GetUserAsync(User).Result;
+            await _signInManager.RefreshSignInAsync(user);
+
+            return RedirectToPage("/Class/Index", new { id = c.ClassId });
         }
     }
 }

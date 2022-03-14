@@ -12,9 +12,21 @@ namespace CikguHub.Pages
 
         public static string Profile => "Profile";
 
+        public static string Browse => "Browse";
+
+        public static string Courses => "Courses";
+
+        public static string Classes => "Classes";
+
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Home);
 
         public static string ProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, Profile);
+
+        public static string BrowseNavClass(ViewContext viewContext) => PageNavClass(viewContext, Browse);
+
+        public static string CoursesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Courses);
+
+        public static string ClassesNavClass(ViewContext viewContext) => PageNavClass(viewContext, Classes);
 
         private static string PageNavClass(ViewContext viewContext, string page)
         {
@@ -23,10 +35,10 @@ namespace CikguHub.Pages
             return string.Equals(activePage, page, StringComparison.OrdinalIgnoreCase) ? "menu-item-active" : null;
         }
 
-        public static string CaseNavClass(ViewContext viewContext, int caseId)
+        public static string CaseNavClass(ViewContext viewContext, int classId)
         {
-            var activeCase = viewContext.ViewData["ActiveCase"] as int?;
-            return activeCase == caseId ? "menu-item-active" : null;
+            var activeClass = viewContext.ViewData["ActiveClass"] as int?;
+            return activeClass == classId ? "menu-item-active" : null;
         }
     }
 }

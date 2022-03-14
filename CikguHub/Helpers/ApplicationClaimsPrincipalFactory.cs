@@ -8,6 +8,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Text.Json;
+using CikguHub.Api.Model;
 
 namespace CikguHub.Helpers
 {
@@ -28,15 +29,27 @@ namespace CikguHub.Helpers
         {
             var principal = await base.CreateAsync(user);
 
-            //var cases = await _context.Cases.Where(c => c.ClientId == user.Id).ToListAsync();
-            //List<Claim> caseClaims = new List<Claim>();
-            //foreach (Case c in cases)
-            //{
-            //    Claim caseClaim = new Claim("Case", JsonSerializer.Serialize(c, typeof(Case)));
-            //    caseClaims.Add(caseClaim);
-            //}
+            var enrolments = await _context.Enrolments.Where(c => c.UserId == user.Id)
+                .Select(c => new EnrolmentModel()
+                {
+                    UserId = c.UserId,
+                    ClassId = c.ClassId,
+                    ClassName = c.Class.Name,
+                    ClassStartTime = c.Class.StartTime,
+                    CourseId = c.Class.CourseId,
+                    CourseCode = c.Class.Course.Code,
+                    CourseName = c.Class.Course.Name,
+                    Status = c.Status
+                }).ToListAsync();
 
-            //((ClaimsIdentity)principal.Identity).AddClaims(caseClaims);
+            List<Claim> claims = new List<Claim>();
+            foreach (EnrolmentModel c in enrolments)
+            {
+                Claim claim = new Claim("Enrolment", JsonSerializer.Serialize(c, typeof(EnrolmentModel)));
+                claims.Add(claim);
+            }
+
+            ((ClaimsIdentity)principal.Identity).AddClaims(claims);
 
             return principal;
         }
