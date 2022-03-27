@@ -30,7 +30,7 @@
     <div class="container">
 
         <div class="row">
-            @foreach (Class item in Model.Course.Classes)
+            @foreach (Class item in Model.Course.Classes.Where(c => c.Status == ClassStatus.Active))
             {
                 <div class="col-xxl-12 col-xl-6">
                     <!--begin::Card-->
@@ -48,7 +48,7 @@
                                         <a asp-area="" asp-page="/Class/Index" asp-route-id="@item.ClassId" class="text-dark-75">@item.Name</a>
                                     </h3>
                                     <div class="text-primary font-size-h4 mb-9">@item.Tags</div>
-                                    <div class="font-size-sm mb-8">@item.Description</div>
+                                    <div style="white-space: pre-line" class="font-size-sm mb-8">@item.Description</div>
                                     <!--begin::Info-->
                                     <div class="d-flex mb-3">
                                         <span class="text-dark-50 flex-root font-weight-bold">Course</span>

@@ -83,5 +83,18 @@ namespace CikguHub.Pages.Course
             return Partial("Partials/_Class", c);
         }
 
+        public async Task<IActionResult> OnGetDeleteClassPartial(int classId)
+        {
+            Data.Class c = await _context.Classes
+            .FirstOrDefaultAsync(m => m.ClassId == classId);
+
+            c.Deleted = true;
+
+            await _context.SaveChangesAsync();
+
+            await _activityLogger.LogActivityAsync(EntityType.Class, c.ClassId, ActivityType.Edited);
+
+            return new OkResult();
+        }
     }
 }

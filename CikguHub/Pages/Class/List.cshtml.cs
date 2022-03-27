@@ -30,6 +30,7 @@ namespace CikguHub.Pages.Class
 
             Classes = await _context.Classes
                 .Include(c => c.Course)
+                .Where(c => !c.Deleted)
                 .ToListAsync();
 
             return Page();

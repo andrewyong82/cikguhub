@@ -53,7 +53,7 @@
                         <div class="card-header pt-7">
                             <div class="d-flex align-items-center">
                                 <span class="card-title align-items-start flex-column">
-                                    <span class="card-label font-weight-light text-muted font-size-h6-sm">@item.Course.Code:  @item.Course.Name</span>
+                                    <a asp-area="" asp-page="/Course/Setup" asp-route-id="@item.CourseId"><span class="card-label font-weight-light text-muted font-size-h6-sm">@item.Course.Code:  @item.Course.Name</span></a>
                                 </span>
 
                                 <span class="label label-lg label-light-@item.Status.GetLabel() label-inline font-weight-bold mx-2 mb-5">@item.Status</span>

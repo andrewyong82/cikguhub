@@ -185,7 +185,7 @@
 
             _wizardObj = new KTWizard(_wizardEl, {
                 startStep: startStep, // initial active step number
-                clickableSteps: false  // allow step clicking
+                clickableSteps: @(Model.Course.Status == CourseStatus.Active ? "true" : "false")  // allow step clicking
             });
 
             var _btnNext = KTUtil.find(_wizardEl, '[data-wizard-type="action-next"]');
@@ -394,6 +394,13 @@
             .then((response) => {
                 $('#classes').append(response);
                 $('#StartTime > input').val('');
+            });
+    };
+
+    function deleteClass(id) {
+        fetch(window.location.pathname + '?handler=DeleteClassPartial&classId=' + id)
+            .then((response) => {
+                $('#class-' + id).remove();
             });
     };
     </script>

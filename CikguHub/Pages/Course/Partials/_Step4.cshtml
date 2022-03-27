@@ -81,7 +81,7 @@
                         <!--end::Thead-->
                         <!--begin::Tbody-->
                         <tbody id="classes">
-                            @foreach (var item in Model.Classes)
+                            @foreach (var item in Model.Classes.Where(c => !c.Deleted))
                             {
                                 @await Html.PartialAsync("Partials/_Class", item)
                             }
