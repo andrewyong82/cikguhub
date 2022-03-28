@@ -28,15 +28,15 @@ namespace CikguHub.Pages.Payment
                 return NotFound();
             }
 
-            Payment = await _context.Payments.Include(c => c.Case).FirstOrDefaultAsync(m => m.PaymentId == id);
+            Payment = await _context.Payments.Include(c => c.User).FirstOrDefaultAsync(m => m.PaymentId == id);
 
             Payment.Status = PaymentStatus.Cancelled;
             Payment.Modified = DateTime.UtcNow;
-            Payment.Case.Status = CourseStatus.Review;
+            //Payment.Case.Status = CourseStatus.Review;
 
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("/Case/RenterDeposit/Index", new { id = Payment.CaseId });
+            return RedirectToPage("/Payment/Index");
         }
     }
 }

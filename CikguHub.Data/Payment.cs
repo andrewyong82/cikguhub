@@ -23,43 +23,6 @@ namespace CikguHub.Data
         public const string Stripe = "Stripe";
     }
 
-    public static class Products
-    {
-        public interface IProduct
-        {
-            string Name { get; }
-            decimal Price { get; }
-        }
-
-        public class RentalDepositLetterOfDemandStandard : IProduct
-        {
-            string IProduct.Name => "Rental Deposit Letter of Demand - Standard";
-
-            decimal IProduct.Price => 50;
-        }
-
-        public class RentalDepositLetterOfDemandPremium : IProduct
-        {
-            string IProduct.Name => "Rental Deposit Letter of Demand - Premium";
-
-            decimal IProduct.Price => 200;
-        }
-
-        public static IProduct GetProduct(string serviceLevel)
-        {
-            switch (serviceLevel)
-            {
-                case ServiceLevel.Standard:
-                    return new RentalDepositLetterOfDemandStandard();
-                case ServiceLevel.Premium:
-                    return new RentalDepositLetterOfDemandPremium();
-                default:
-                    break;
-            }
-
-            return new RentalDepositLetterOfDemandStandard();
-        }
-    }
 
     public class Payment
     {
@@ -70,9 +33,6 @@ namespace CikguHub.Data
         public string Method { get; set; }
 
         public string Product { get; set; }
-
-        public int? CaseId { get; set; }
-        public Course Case { get; set; }
 
         public int UserId { get; set; }
         public ApplicationUser User { get; set; }

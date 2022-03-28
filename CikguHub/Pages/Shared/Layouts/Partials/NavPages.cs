@@ -12,6 +12,8 @@ namespace CikguHub.Pages
 
         public static string Profile => "Profile";
 
+        public static string Payment => "Payment";
+
         public static string Browse => "Browse";
 
         public static string Courses => "Courses";
@@ -21,6 +23,8 @@ namespace CikguHub.Pages
         public static string IndexNavClass(ViewContext viewContext) => PageNavClass(viewContext, Home);
 
         public static string ProfileNavClass(ViewContext viewContext) => PageNavClass(viewContext, Profile);
+
+        public static string PaymentNavClass(ViewContext viewContext) => PageNavClass(viewContext, Payment);
 
         public static string BrowseNavClass(ViewContext viewContext) => PageNavClass(viewContext, Browse);
 

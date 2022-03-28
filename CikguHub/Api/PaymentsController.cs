@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Stripe;
 using Stripe.Checkout;
 using CikguHub.Api.Model;
+using CikguHub.Helpers;
 
 namespace CikguHub.Api
 {
@@ -24,60 +25,66 @@ namespace CikguHub.Api
             _configuration = configuration;
         }
 
-        [HttpPost("Create")]
-        public async Task<ActionResult> PostCreate([FromForm] CourseModel model)
+        [HttpPost("SubscribeMonthly")]
+        public async Task<ActionResult> PostSubscribeMonthly()
+        {
+
+            var sessionId = Subscribe("price_1KiD93DR88TEzbMmefmpzaYL");
+            //var sessionId =  Subscribe("price_1KhtilDR88TEzbMmteJB1xui"); //live
+
+            return Json(new { id = sessionId });
+        }
+
+        [HttpPost("SubscribeYearly")]
+        public async Task<ActionResult> PostSubscribeYearly()
+        {
+
+            var sessionId = Subscribe("price_1KiD93DR88TEzbMmdrJ4z6bC");
+            //var sessionId = Subscribe("price_1KhvNbDR88TEzbMmvkiq5n9E"); //live
+
+            return Json(new { id = sessionId });
+        }
+
+        private string Subscribe(string priceId)
         {
             Payment payment = new Payment();
-            Products.IProduct product = Products.GetProduct("");
 
-            payment.Amount = product.Price;
-            payment.Product = product.Name;
-
+            payment.Product = priceId;
             payment.Method = CikguHub.Data.PaymentMethod.Stripe;
-            payment.CaseId = model.CourseId;
+            payment.UserId = User.GetUserId();
 
-            if (model.CourseId == 0)
-            {
-                return BadRequest();
-            }
+            _context.Payments.Add(payment);
 
-            //var caseRenterDeposit = await _context.CaseRenterDeposits.FindAsync(model.CaseRenterDepositId);
-            //caseRenterDeposit.LetterOfDemandServiceLevel = model.LetterOfDemandServiceLevel;
-            //caseRenterDeposit.LetterOfDemandPayment = payment;
-            
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
 
+
+            //var priceId = "price_1KhtilDR88TEzbMmteJB1xui"; //monthly
+            //var priceId = "price_1KhvNbDR88TEzbMmvkiq5n9E"; //yearly
             var domain = "https://" + this.Request.Host.Value;
             var options = new SessionCreateOptions
             {
                 PaymentMethodTypes = new List<string>
                 {
-                  "card", "fpx"
+                    "card"
                 },
                 LineItems = new List<SessionLineItemOptions>
                 {
                   new SessionLineItemOptions
                   {
-                    PriceData = new SessionLineItemPriceDataOptions
-                    {
-                      UnitAmount = (long)Decimal.Multiply(product.Price, 100),
-                      Currency = "myr",
-                      ProductData = new SessionLineItemPriceDataProductDataOptions
-                      {
-                        Name = product.Name,
-                      },
-                    },
+                    Price = priceId,
                     Quantity = 1,
                   },
                 },
-                Mode = "payment",
-                SuccessUrl = domain + "/payment/success/" + payment.PaymentId,
+                Mode = "subscription",
+                SuccessUrl = domain + "/payment/success/" + payment.PaymentId + "?session_id={CHECKOUT_SESSION_ID}",
                 CancelUrl = domain + "/payment/cancelled/" + payment.PaymentId,
+                SubscriptionData = new SessionSubscriptionDataOptions() { TrialPeriodDays = 30 }
             };
 
             var service = new SessionService();
             Session session = service.Create(options);
-            return Json(new { id = session.Id });
+
+            return session.Id;
         }
     }
 }
