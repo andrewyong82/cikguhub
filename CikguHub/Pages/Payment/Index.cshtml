@@ -56,10 +56,18 @@
         <div class="card card-custom">
             <div class="card-header">
                 <div class="card-title">
-                    <span class="card-icon">
-                        <i class="flaticon2-chart text-primary"></i>
-                    </span>
-                    <h4 class="card-label">Pricing Table</h4>
+                    @if (String.IsNullOrWhiteSpace(User.GetCustomerId()))
+                    {
+                        <span class="card-icon">
+                            <i class="flaticon2-chart text-primary"></i>
+                        </span>
+                        <h4 class="card-label">Subscribe to become a member</h4>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-page="/Payment/Index" asp-page-handler="CustomerPortal">Manage subscription</a>
+                    }
+
                 </div>
             </div>
             <div class="card-body">
@@ -67,7 +75,7 @@
                     <!-- begin: Pricing-->
                     <div class="col-md-4 col-xxl-3 bg-white rounded-left shadow-sm">
                         <div class="pt-25 pb-25 pb-md-10 px-4">
-                            <h4 class="mb-15">Basic Observer</h4>
+                            <h4 class="mb-15">Limited Observer</h4>
                             <span class="px-7 py-3 font-size-h1 font-weight-bold d-inline-flex flex-center bg-primary-o-10 rounded-lg mb-15">Free</span>
                             <br>
                             <p class="mb-10 d-flex flex-column text-dark-50">
@@ -75,7 +83,7 @@
                                 <span>sed do eiusmod tempors labore et dolore</span>
                                 <span>magna siad enim aliqua</span>
                             </p>
-                            <button type="button" class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3 disabled" disabled>Join</button>
+                            <button type="button" class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3" disabled>Join</button>
                         </div>
                     </div>
                     <!-- end: Pricing-->

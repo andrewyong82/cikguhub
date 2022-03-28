@@ -19,6 +19,7 @@ namespace CikguHub.Data
         public string BannerUrl { get; set; }
 
         public string SubscriptionStatus { get; set; } = Data.SubscriptionStatus.Inactive;
+        public string CustomerId { get; set; }
 
         public DateTime Modified { get; set; }
         public DateTime Created { get; set; }

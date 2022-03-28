@@ -17,6 +17,22 @@
             <!--end::Action-->
         </div>
 
+        @if (User.GetSubscriptionStatus() == SubscriptionStatus.Active)
+        {
+            <div class="d-flex align-items-center flex-wrap">
+                <span class="navi-text">
+                    <span class="label label-xl label-inline label-light-success">Member</span>
+                </span>
+            </div>
+        }
+        else
+        {
+            <div class="d-flex align-items-center flex-wrap">
+                <span class="navi-text">
+                    <a asp-area="" asp-page="/Payment/Index"><span class="label label-xl label-inline label-light-dark">Limited</span></a>
+                </span>
+            </div>
+        }
         <!--end::Info-->
         <!--begin::Toolbar-->
         @*<div class="d-flex align-items-center flex-wrap">

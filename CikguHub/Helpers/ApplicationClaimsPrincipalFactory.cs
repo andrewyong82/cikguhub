@@ -29,6 +29,7 @@ namespace CikguHub.Helpers
         {
             var principal = await base.CreateAsync(user);
 
+            //Add enrolled classes
             var enrolments = await _context.Enrolments.Where(c => c.UserId == user.Id)
                 .Select(c => new EnrolmentModel()
                 {
@@ -47,6 +48,20 @@ namespace CikguHub.Helpers
             {
                 Claim claim = new Claim("Enrolment", JsonSerializer.Serialize(c, typeof(EnrolmentModel)));
                 claims.Add(claim);
+            }
+
+            //add subscription status
+            if (!String.IsNullOrWhiteSpace(user.SubscriptionStatus))
+            {
+                Claim status = new Claim("SubscriptionStatus", user.SubscriptionStatus);
+                claims.Add(status);
+            }
+
+            //add stripe customerid
+            if (!String.IsNullOrWhiteSpace(user.CustomerId))
+            {
+                Claim customerId = new Claim("CustomerId", user.CustomerId);
+                claims.Add(customerId);
             }
 
             ((ClaimsIdentity)principal.Identity).AddClaims(claims);

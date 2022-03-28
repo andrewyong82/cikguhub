@@ -59,9 +59,9 @@
                 </li>
 
                 @{
-                var enrolments = User.GetUserEnrolments();
-                foreach (var c in enrolments)
-                {
+                    var enrolments = User.GetEnrolments();
+                    foreach (var c in enrolments)
+                    {
                 <li class="menu-item @NavPages.CaseNavClass(ViewContext, c.ClassId)" aria-haspopup="true">
                     <a asp-area="" asp-page="/Class/Index" asp-route-id="@c.ClassId" class="menu-link">
                         <span class="svg-icon menu-icon">
@@ -177,7 +177,7 @@
                             </svg>
                             <!--end::Svg Icon-->
                         </span>
-                        <span class="menu-text">Orders and Payments</span>
+                        <span class="menu-text">Subscription</span>
                     </a>
                 </li>
                 <li class="menu-item" aria-haspopup="true">

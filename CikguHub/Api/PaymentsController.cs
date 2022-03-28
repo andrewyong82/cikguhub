@@ -9,6 +9,7 @@ using Stripe;
 using Stripe.Checkout;
 using CikguHub.Api.Model;
 using CikguHub.Helpers;
+using System.IO;
 
 namespace CikguHub.Api
 {
@@ -29,7 +30,7 @@ namespace CikguHub.Api
         public async Task<ActionResult> PostSubscribeMonthly()
         {
 
-            var sessionId = Subscribe("price_1KiD93DR88TEzbMmefmpzaYL");
+            var sessionId = Subscribe("price_1KiD93DR88TEzbMmefmpzaYL", "YearlyMembership");
             //var sessionId =  Subscribe("price_1KhtilDR88TEzbMmteJB1xui"); //live
 
             return Json(new { id = sessionId });
@@ -39,19 +40,20 @@ namespace CikguHub.Api
         public async Task<ActionResult> PostSubscribeYearly()
         {
 
-            var sessionId = Subscribe("price_1KiD93DR88TEzbMmdrJ4z6bC");
+            var sessionId = Subscribe("price_1KiD93DR88TEzbMmdrJ4z6bC", "YearlyMembership");
             //var sessionId = Subscribe("price_1KhvNbDR88TEzbMmvkiq5n9E"); //live
 
             return Json(new { id = sessionId });
         }
 
-        private string Subscribe(string priceId)
+        private string Subscribe(string priceId, string product)
         {
             Payment payment = new Payment();
 
-            payment.Product = priceId;
+            payment.Product = product;
             payment.Method = CikguHub.Data.PaymentMethod.Stripe;
             payment.UserId = User.GetUserId();
+            payment.PriceId = priceId;
 
             _context.Payments.Add(payment);
 
@@ -85,6 +87,51 @@ namespace CikguHub.Api
             Session session = service.Create(options);
 
             return session.Id;
+        }
+
+        [HttpPost("webhook")]
+        public async Task<IActionResult> Webhook()
+        {
+            var json = await new StreamReader(HttpContext.Request.Body).ReadToEndAsync();
+            Event stripeEvent;
+            try
+            {
+                var webhookSecret = "whsec_5688265d299e94b8a55bc3576121e8f12ea4f09ea1e4ea7a747cda0dff014b6b";
+                stripeEvent = EventUtility.ConstructEvent(
+                                json,
+                                Request.Headers["Stripe-Signature"],
+                                webhookSecret
+                            );
+                Console.WriteLine($"Webhook notification with type: {stripeEvent.Type} found for {stripeEvent.Id}");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Something failed {e}");
+                return BadRequest();
+            }
+
+            switch (stripeEvent.Type)
+            {
+                case "checkout.session.completed":
+                    // Payment is successful and the subscription is created.
+                    // You should provision the subscription and save the customer ID to your database.
+                    break;
+                case "invoice.paid":
+                    // Continue to provision the subscription as payments continue to be made.
+                    // Store the status in your database and check when a user accesses your service.
+                    // This approach helps you avoid hitting rate limits.
+                    break;
+                case "invoice.payment_failed":
+                    // The payment failed or the customer does not have a valid payment method.
+                    // The subscription becomes past_due. Notify your customer and send them to the
+                    // customer portal to update their payment information.
+                    break;
+                default:
+                    // Unhandled event type
+                    break;
+            }
+
+            return Ok();
         }
     }
 }

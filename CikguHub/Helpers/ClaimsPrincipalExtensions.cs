@@ -35,7 +35,7 @@ namespace CikguHub.Helpers
             return currentUserId == id;
         }
 
-        public static List<EnrolmentModel> GetUserEnrolments(this ClaimsPrincipal principal)
+        public static List<EnrolmentModel> GetEnrolments(this ClaimsPrincipal principal)
         {
             var claims = principal.FindAll("Enrolment");
 
@@ -50,8 +50,18 @@ namespace CikguHub.Helpers
 
         public static bool HasClass(this ClaimsPrincipal principal, int classId)
         {
-            var cases = principal.GetUserEnrolments();
+            var cases = principal.GetEnrolments();
             return cases.Exists(c => c.ClassId == classId);
+        }
+
+        public static string GetSubscriptionStatus(this ClaimsPrincipal principal)
+        {
+            return principal.FindFirstValue("SubscriptionStatus");
+        }
+
+        public static string GetCustomerId(this ClaimsPrincipal principal)
+        {
+            return principal.FindFirstValue("CustomerId");
         }
 
         public static string GetFolderName(this ClaimsPrincipal principal)

@@ -4,6 +4,7 @@
     ViewData["Title"] = Model.Class.Course.Code + ": " + Model.Class.Course.Name;
     ViewData["Subtitle"] = Model.Class.Name;
     ViewData["ActiveClass"] = Model.Class.ClassId;
+    var relatedClasses = Model.Class.Course.Classes.Where(c => !c.Deleted && c.Status == ClassStatus.Active && c.ClassId != Model.Class.ClassId);
 }
 
 @section Styles
@@ -114,7 +115,7 @@
                         <h3 class="card-title align-items-start flex-column">
                             <span class="card-label font-weight-bolder text-dark">Related Classes</span>
                             <span class="text-muted mt-3 font-weight-bold font-size-sm">
-                                <span class="text-primary">@Model.Class.Course.Classes.Count()</span> available
+                                <span class="text-primary">@relatedClasses.Count()</span> available
                             </span>
                         </h3>
                     </div>
@@ -133,7 +134,7 @@
                                 <!--end::Thead-->
                                 <!--begin::Tbody-->
                                 <tbody>
-                                    @foreach (var item in Model.Class.Course.Classes)
+                                    @foreach (var item in relatedClasses)
                                     {
                                         <tr>
                                             <td class="pl-0">
