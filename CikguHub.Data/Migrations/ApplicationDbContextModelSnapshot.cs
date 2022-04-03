@@ -158,41 +158,41 @@ namespace CikguHub.Data.Migrations
                         {
                             Id = 1,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "d84a7a40-3f66-4322-9236-6fa3731a97dc",
+                            ConcurrencyStamp = "c78160f8-0c80-4bf2-8b0a-38dd5ef7e77b",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "admin@fastLaw.my",
+                            Email = "admin@cikguhub.my",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Modified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Admin",
-                            NormalizedEmail = "ADMIN@FASTLAW.MY",
-                            NormalizedUserName = "ADMIN@FASTLAW.MY",
-                            PasswordHash = "AQAAAAEAACcQAAAAEH+lmkDAgxnkOW/cIdLaXo3mun8bYkM6Z/hPp+95bQD6RbhY2bdoCrTO+ZiB1STO7w==",
+                            NormalizedEmail = "ADMIN@CIKGUHUB.MY",
+                            NormalizedUserName = "ADMIN@CIKGUHUB.MY",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFHwbRjFaHB+Gi49MZJT+DRos6tPPsXjcXgdrGMzB9CRumRF+jr1lPCWfqoYBdEjTg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             SubscriptionStatus = "Inactive",
                             TwoFactorEnabled = false,
-                            UserName = "admin@fastlaw.my"
+                            UserName = "admin@cikguhub.my"
                         },
                         new
                         {
                             Id = 2,
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "9e696cad-2d6f-4b47-9edd-83ad56d6a0e1",
+                            ConcurrencyStamp = "c815b00a-7aa8-4672-9ce6-2586784c1d0f",
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Email = "member@fastLaw.my",
+                            Email = "member@cikguhub.my",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             Modified = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Name = "Member",
-                            NormalizedEmail = "MEMBER@FASTLAW.MY",
-                            NormalizedUserName = "MEMBER@FASTLAW.MY",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA8vSwBXMyD/vA3MqTn28BK0eACKME29tKzrIU0SJ2z2uAkgpcLK6Afs6T5SmdwNVQ==",
+                            NormalizedEmail = "MEMBER@CIKGUHUB.MY",
+                            NormalizedUserName = "MEMBER@CIKGUHUB.MY",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEcrYHnni5gpCAqmxWaHc4BvW8xGouFJgSIejlUfKcY62rZ5TJ225T3TN3GuQ0cEqA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             SubscriptionStatus = "Inactive",
                             TwoFactorEnabled = false,
-                            UserName = "member@fastLaw.my"
+                            UserName = "member@cikguhub.my"
                         });
                 });
 
@@ -322,6 +322,9 @@ namespace CikguHub.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CertificateUrl")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("ClassId")
                         .HasColumnType("int");
@@ -548,14 +551,14 @@ namespace CikguHub.Data.Migrations
                         new
                         {
                             Id = 1,
-                            ConcurrencyStamp = "a8cacee6-8cbe-421d-86ca-de7c0ec7873d",
+                            ConcurrencyStamp = "c63cb94b-8e65-4d87-89f9-af3a0a7acd29",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         },
                         new
                         {
                             Id = 2,
-                            ConcurrencyStamp = "b87fa7cc-bbfc-4f8c-811e-29a46244866e",
+                            ConcurrencyStamp = "d9287a98-9a3b-47e6-b55d-25c7b59a8230",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         });

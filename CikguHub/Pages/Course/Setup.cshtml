@@ -2,7 +2,7 @@
 @model CikguHub.Pages.Course.SetupModel
 
 @{
-    ViewData["Title"] = "Course #" + Model.Course.CourseId.ToString("D3") + " - Setup";
+    ViewData["Title"] = "Theme #" + Model.Course.CourseId.ToString("D3") + " - Setup";
     ViewData["Subtitle"] = Model.Course.Name;
     ViewData["ActiveCase"] = Model.Course.CourseId;
 }
@@ -386,14 +386,19 @@
         autosize(document.getElementById("Objectives"));
         autosize(document.getElementById("Description"));
 
-        $('#StartTime').datetimepicker();
+        $('#StartTime').datetimepicker({
+            defaultDate: '@DateTime.Now.Date.AddHours(10).AddDays(7).ToString("MM/dd/yyyy HH:mm:ss")'
+        });
     });
 
     function addClass() {
         fetch(window.location.pathname + '?handler=NewClassPartial&startTime=' + encodeURIComponent($('#StartTime > input').val()))
             .then((response) => {
-                $('#classes').append(response);
-                $('#StartTime > input').val('');
+                return response.text();
+            })
+            .then((result) => {
+                $('#classes').append(result);
+                //$('#StartTime > input').val('');
             });
     };
 

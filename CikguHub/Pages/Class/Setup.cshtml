@@ -184,7 +184,7 @@
 
             _wizardObj = new KTWizard(_wizardEl, {
                 startStep: startStep, // initial active step number
-                clickableSteps: false  // allow step clicking
+                clickableSteps: @(Model.Class.Status == ClassStatus.Active ? "true" : "false")  // allow step clicking
             });
 
             var _btnNext = KTUtil.find(_wizardEl, '[data-wizard-type="action-next"]');
@@ -380,6 +380,15 @@
         autosize(document.getElementById("Description"));
     });
 
+        function completeEnrolment(id) {
+            fetch(window.location.pathname + '?handler=CompleteEnrolment&enrolmentId=' + id)
+                .then((response) => {
+                            return response.text();
+                        })
+                .then((result) => {
+                    $('#enrol-' + id).replaceWith(result);
+                });
+        };
     </script>
 
 }

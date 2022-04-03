@@ -66,6 +66,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CikguHub.Data\CikguHub.Data.csproj" />
+    <ProjectReference Include="..\CikguHub.Document\CikguHub.Document.csproj" />
   </ItemGroup>
 
 </Project>

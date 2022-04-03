@@ -29,16 +29,16 @@ namespace CikguHub.Data
     {
         public int CourseId { get; set; }
 
-        [DisplayName("Course Code")]
+        [DisplayName("Theme Code")]
         public string Code { get; set; }
 
-        [DisplayName("Course Title")]
+        [DisplayName("Theme Title")]
         public string Name { get; set; }
 
-        [DisplayName("Course Objectives")]
+        [DisplayName("Theme Objectives")]
         public string Objectives { get; set; }
 
-        [DisplayName("Course Description")]
+        [DisplayName("Theme Description")]
         public string Description { get; set; }
 
         [DisplayName("Default Class Content")]
@@ -48,15 +48,15 @@ namespace CikguHub.Data
         public int? ImageResourceId { get; set; }
         public Resource ImageResource { get; set; }
 
-        [DisplayName("Course Video Url")]
+        [DisplayName("Theme Video Url")]
         public string VideoUrl { get; set; }
 
-        [DisplayName("Course Chat Channel")]
+        [DisplayName("Theme Chat Channel")]
         public string ChatChannel { get; set; }
 
         public string Tags { get; set; }
 
-        [DisplayName("Default Class Duration")]
+        [DisplayName("Theme Class Duration")]
         public int Duration { get; set; } = 15;
 
         public List<Class> Classes { get; set; }

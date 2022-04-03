@@ -66,10 +66,10 @@ namespace CikguHub.Data
                 {
                     Id = 1,
                     Name = "Admin",
-                    UserName = "admin@fastlaw.my",
-                    NormalizedUserName = "admin@fastlaw.my".ToUpper(),
-                    Email = "admin@fastLaw.my",
-                    NormalizedEmail = "admin@fastlaw.my".ToUpper(),
+                    UserName = "admin@cikguhub.my",
+                    NormalizedUserName = "admin@cikguhub.my".ToUpper(),
+                    Email = "admin@cikguhub.my",
+                    NormalizedEmail = "admin@cikguhub.my".ToUpper(),
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null, "admin"),
                     SecurityStamp = string.Empty
@@ -78,10 +78,10 @@ namespace CikguHub.Data
                 {
                     Id = 2,
                     Name = "Member",
-                    UserName = "member@fastLaw.my",
-                    NormalizedUserName = "member@fastlaw.my".ToUpper(),
-                    Email = "member@fastLaw.my",
-                    NormalizedEmail = "member@fastlaw.my".ToUpper(),
+                    UserName = "member@cikguhub.my",
+                    NormalizedUserName = "member@cikguhub.my".ToUpper(),
+                    Email = "member@cikguhub.my",
+                    NormalizedEmail = "member@cikguhub.my".ToUpper(),
                     EmailConfirmed = true,
                     PasswordHash = hasher.HashPassword(null, "member"),
                     SecurityStamp = string.Empty

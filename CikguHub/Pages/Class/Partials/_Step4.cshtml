@@ -1,3 +1,60 @@
 ﻿@model CikguHub.Data.Class
 
-<p>Under Construction...</p>
+<h4 class="font-weight-bold text-dark">Manage Enrolments</h4>
+@*<p class="mb-10 text-muted">Setup available classes</p>*@
+
+<div class="row mb-10">
+    <div class="col-xl-12">
+        <div class="card card-custom gutter-b">
+            <!--begin::Header-->
+            <div class="card-header border-0 pt-5">
+                <h3 class="card-title align-items-start flex-column">
+                    <span class="card-label font-weight-bolder text-dark">Current Enrolments</span>
+                    @*<span class="text-muted mt-3 font-weight-bold font-size-sm">
+                            Next Event is in
+                            <span class="text-primary">9 days</span>
+                        </span>*@
+                </h3>
+                <div class="card-toolbar">
+                    @*<ul class="nav nav-pills nav-pills-sm nav-dark-75">
+                            <li class="nav-item">
+                                <a class="nav-link py-2 px-4 font-weight-bolder" data-toggle="tab" href="#kt_tab_pane_10_1">Tomorrow</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link py-2 px-4 active font-weight-bolder" data-toggle="tab" href="#kt_tab_pane_10_2">Today</a>
+                            </li>
+                        </ul>*@
+                </div>
+            </div>
+            <!--end::Header-->
+            <!--begin::Body-->
+            <div class="card-body pt-2 pb-0 mt-n3">
+                <div class="table-responsive">
+                    <table class="table table-borderless table-vertical-center">
+                        <!--begin::Thead-->
+                        <thead>
+                            <tr>
+                                <th class="p-0 w-50px"></th>
+                                <th class="p-0 w-100 min-w-100px"></th>
+                                <th class="p-0"></th>
+                                <th class="p-0 min-w-130px w-100"></th>
+                            </tr>
+                        </thead>
+                        <!--end::Thead-->
+                        <!--begin::Tbody-->
+                        <tbody id="classes">
+                            @foreach (var item in Model.Enrolments)
+                            {
+                                @await Html.PartialAsync("Partials/_Enrolment", item)
+                            }
+                        </tbody>
+                        <!--end::Tbody-->
+                    </table>
+                </div>
+            </div>
+            <!--end::Body-->
+        </div>
+
+    </div>
+
+</div>

@@ -21,6 +21,9 @@ using Azure.Storage.Blobs;
 using Microsoft.Extensions.Azure;
 using AutoMapper;
 using Stripe;
+using DinkToPdf.Contracts;
+using DinkToPdf;
+using CikguHub.Document;
 
 namespace CikguHub
 {
@@ -58,6 +61,9 @@ namespace CikguHub
 
             services.AddTransient<IEmailSender, EmailSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("EmailSender"));
+
+            services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
+            services.AddTransient<IDocumentService, DocumentService>();
 
             services.AddTransient<IActivityLogger, ActivityLogger>();
 
