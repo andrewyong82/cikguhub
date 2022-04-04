@@ -137,7 +137,7 @@
                 name: '@Model.Class.ImageResource.Name', // file name
                 type: '@Model.Class.ImageResource.FileType', // file type
                 data: { size: @Model.Class.ImageResource.Size  }, // file blob
-                preview: '@Model.Class.ImageUrl'
+                preview: '@Html.Raw(Model.Class.ImageUrl)'
             })
 
             var uploadedfile;
