@@ -34,7 +34,7 @@ namespace CikguHub.Document
         {
             XElement html = ToHtml(model, templateFile);
 
-            html.Elements().Last().SetAttributeValue("style", "background-image: url(" + watermarkUrl + ")");
+            html.Elements().Last().SetAttributeValue("style", "background-image: url(" + watermarkUrl + "); background-repeat: no-repeat; background-position: center;");
 
             return GeneratePdf(html.ToString());
         }
