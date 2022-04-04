@@ -28,6 +28,7 @@ namespace CikguHub.Pages.Class
 
         [BindProperty]
         public Data.Class Class { get; set; }
+        public int ViewCount { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -45,6 +46,8 @@ namespace CikguHub.Pages.Class
                 .Include(c => c.Course.Classes)
                 .FirstOrDefaultAsync(m => m.ClassId == id);
 
+            ViewCount = _activityLogger.GetActivitiesCount(EntityType.Class, id.Value, ActivityType.Viewed);
+
             if (Class == null)
             {
                 return NotFound();
@@ -55,6 +58,8 @@ namespace CikguHub.Pages.Class
 
             if (Class.Status == ClassStatus.Review)
                 return Redirect("/class/" + Class.ClassId.ToString() + "/setup#4");
+
+            _activityLogger.LogActivityAsync(EntityType.Class, id.Value, ActivityType.Viewed, null, User.GetUserId());
 
             return Page();
         }

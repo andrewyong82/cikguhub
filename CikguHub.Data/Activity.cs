@@ -22,7 +22,8 @@ namespace CikguHub.Data
         Pending = 40,
         Progress = 50,
         Action = 60,
-        Note = 70
+        Note = 70,
+        Viewed = 80,
     }
 
     public class Activity

@@ -10,6 +10,7 @@ namespace CikguHub.Helpers
     {
         Task<Activity> LogActivityAsync(EntityType entityType, int entityId, ActivityType activityType, string data = null, int? userId = null);
         List<Activity> GetActivities(EntityType entityType, int entityId);
+        int GetActivitiesCount(EntityType entityType, int entityId, ActivityType activityType);
         void DeleteActivity(int activityId);
     }
 
@@ -42,6 +43,13 @@ namespace CikguHub.Helpers
             var activities = _context.Activities.Where(a => a.EntityType == entityType && a.SubjectId == entityId && !a.Deleted).OrderBy(a => a.Created).ToList();
 
             return activities;
+        }
+
+        public int GetActivitiesCount(EntityType entityType, int entityId, ActivityType activityType)
+        {
+            var count = _context.Activities.Where(a => a.EntityType == entityType && a.SubjectId == entityId && a.ActivityType == activityType  && !a.Deleted).Count();
+
+            return count;
         }
 
         public void DeleteActivity(int activityId) 
