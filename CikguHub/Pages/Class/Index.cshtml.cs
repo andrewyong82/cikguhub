@@ -57,7 +57,7 @@ namespace CikguHub.Pages.Class
             if (Class.Status == ClassStatus.Review)
                 return Redirect("/class/" + Class.ClassId.ToString() + "/setup#4");
 
-            _activityLogger.LogActivityAsync(EntityType.Class, id.Value, ActivityType.Viewed, null, User.GetUserId());
+            await _activityLogger.LogActivityAsync(EntityType.Class, id.Value, ActivityType.Viewed, null, User.GetUserId());
             ViewCount = _activityLogger.GetActivitiesCount(EntityType.Class, id.Value, ActivityType.Viewed);
 
             return Page();
