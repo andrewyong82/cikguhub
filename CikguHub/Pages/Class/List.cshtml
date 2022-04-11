@@ -59,25 +59,9 @@
                                 <span class="label label-lg label-light-@item.Status.GetLabel() label-inline font-weight-bold mx-2 mb-5">@item.Status</span>
                                 <!--begin::Toolbar-->
                                 <div class="card-toolbar mb-7">
-                                    <div class="dropdown dropdown-inline" data-toggle="tooltip" title="" data-placement="left" data-original-title="">
-                                        <a href="#" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="ki ki-bold-more-hor"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-sm dropdown-menu-right">
-                                            <!--begin::Navigation-->
-                                            <ul class="navi navi-hover">
-                                                <li class="navi-item">
-                                                    <a asp-area="" asp-page="/Class/Setup" asp-route-id="@item.ClassId" class="navi-link">
-                                                        @*<span class="navi-icon">
-                                    <i class="flaticon2-shopping-cart-1"></i>
-                                </span>*@
-                                                        <span class="navi-text">Setup</span>
-                                                    </a>
-                                                </li>
-                                            </ul>
-                                            <!--end::Navigation-->
-                                        </div>
-                                    </div>
+                                    <a asp-area="" asp-page="/Class/Setup" asp-route-id="@item.ClassId" class="btn btn-clean btn-hover-light-primary btn-sm btn-icon">
+                                        <i class="ki ki-gear"></i>
+                                    </a>
                                 </div>
                                 <!--end::Toolbar-->
                             </div>

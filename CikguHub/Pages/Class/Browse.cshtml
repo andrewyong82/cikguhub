@@ -45,6 +45,16 @@
                             <div class="card card-custom w-auto w-md-300px w-lg-auto w-xxl-300px ml-auto">
                                 <!--begin::Card Body-->
                                 <div class="card-body px-12 py-10">
+                                    <div class="card-toolbar mb-3">
+                                        @if (User.HasClass(item.ClassId))
+                                        {
+                                            <div class="d-flex align-items-center flex-wrap">
+                                                <span class="navi-text">
+                                                    <span class="label label-xl label-inline label-light-success">Enrolled</span>
+                                                </span>
+                                            </div>
+                                        }
+                                    </div>
                                     <h3 class="font-weight-bolder font-size-h2 mb-1">
                                         <a asp-area="" asp-page="/Class/Index" asp-route-id="@item.ClassId" class="text-dark-75">@item.Name</a>
                                     </h3>

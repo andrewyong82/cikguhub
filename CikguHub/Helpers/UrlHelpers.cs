@@ -10,7 +10,7 @@ namespace CikguHub.Helpers
     {
         public static string VideoUrlToEmbedUrl(string url)
         {
-            if (url.Contains("youtube"))
+            if (!String.IsNullOrWhiteSpace(url) && url.Contains("youtube"))
             {
                 Uri uri = new Uri(url);
                 string videoId = HttpUtility.ParseQueryString(uri.Query).Get("v");

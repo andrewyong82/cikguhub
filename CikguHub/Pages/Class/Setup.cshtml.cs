@@ -15,9 +15,11 @@ using System.IO;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CikguHub.Pages.Class
 {
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class SetupModel : PageModel
     {
         private readonly ApplicationDbContext _context;

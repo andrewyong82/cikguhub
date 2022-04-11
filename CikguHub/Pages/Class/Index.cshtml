@@ -178,30 +178,52 @@
                         </div>
                         <!--end::Forms Widget 8-->
                     </div>
-                    <div class="col-xxl-6">
 
-                        <!--begin::Forms Widget 9-->
-                        <div class="card card-custom gutter-b">
-                            <!--begin::Body-->
-                            <div class="card-body">
-                                @Html.Raw(Model.Class.Content)
-                            </div>
-                            <!--end::Body-->
-                        </div>
-                        <!--end::Forms Widget 9-->
+                    @if (User.GetSubscriptionStatus() == SubscriptionStatus.Active)
+                    {
+                        <div class="col-xxl-6">
 
-                    </div>
-                    <div class="col-xxl-6">
-                        <!--begin::Forms Widget 10-->
-                        <div class="card card-custom gutter-b">
-                            <!--begin::Body-->
-                            <div class="card-body">
-                                <script async src="https://telegram.org/js/telegram-widget.js?16" data-telegram-discussion="@UrlHelpers.ChannelUrlToEmbedUrl(Model.Class.ChatChannel)" data-comments-limit="5"></script>
+                            <!--begin::Forms Widget 9-->
+                            <div class="card card-custom gutter-b">
+                                <!--begin::Body-->
+                                <div class="card-body">
+                                    @Html.Raw(Model.Class.Content)
+                                </div>
+                                <!--end::Body-->
                             </div>
-                            <!--end::Body-->
+                            <!--end::Forms Widget 9-->
+
                         </div>
-                        <!--end::Forms Widget 10-->
-                    </div>
+                        <div class="col-xxl-6">
+                            <!--begin::Forms Widget 10-->
+                            <div class="card card-custom gutter-b">
+                                <!--begin::Body-->
+                                <div class="card-body">
+                                    <script async src="https://telegram.org/js/telegram-widget.js?16" data-telegram-discussion="@UrlHelpers.ChannelUrlToEmbedUrl(Model.Class.ChatChannel)" data-comments-limit="5"></script>
+                                </div>
+                                <!--end::Body-->
+                            </div>
+                            <!--end::Forms Widget 10-->
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-xxl-12">
+                            <div class="card card-custom gutter-b">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between flex-column h-100">
+                                        <div class="d-flex flex-center mt-3">
+                                            <a asp-area="" asp-page="/Payment/Index" class="btn btn-primary font-weight-bolder font-size-sm py-3 px-14">Become a member</a>
+
+                                        </div>
+                                        <div class="d-flex flex-center mt-8">
+                                            <span style="margin-top:-1.5rem" class="form-text text-muted">Member only access</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
             <!--end::Content-->

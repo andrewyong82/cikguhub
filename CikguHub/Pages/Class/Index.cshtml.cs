@@ -17,13 +17,16 @@ namespace CikguHub.Pages.Class
         private readonly IActivityLogger _activityLogger;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IEmailTemplateSender _emailSender;
 
-        public IndexModel(ApplicationDbContext context, IActivityLogger activityLogger, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager)
+        public IndexModel(ApplicationDbContext context, IActivityLogger activityLogger, SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager,
+            IEmailTemplateSender emailSender)
         {
             _context = context;
             _activityLogger = activityLogger;
             _signInManager = signInManager;
             _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         [BindProperty]
@@ -79,6 +82,13 @@ namespace CikguHub.Pages.Class
 
             ApplicationUser user = _userManager.GetUserAsync(User).Result;
             await _signInManager.RefreshSignInAsync(user);
+
+            await _emailSender.SendSubscribedEmail(User.GetUserEmail(), User.GetUserName());
+
+            if (User.GetSubscriptionStatus() != SubscriptionStatus.Active)
+            {
+                RedirectToPage("/Payment/Index");
+            }
 
             return RedirectToPage("/Class/Index", new { id = c.ClassId });
         }

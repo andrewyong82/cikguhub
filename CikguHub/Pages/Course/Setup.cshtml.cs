@@ -8,9 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using CikguHub.Data;
 using CikguHub.Helpers;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CikguHub.Pages.Course
 {
+    [Authorize(Policy = "RequireAdministratorRole")]
     public class SetupModel : PageModel
     {
         private readonly ApplicationDbContext _context;

@@ -60,6 +60,7 @@ namespace CikguHub
             services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationClaimsPrincipalFactory>();
 
             services.AddTransient<IEmailSender, EmailSender>();
+            services.AddTransient<IEmailTemplateSender, EmailTemplateSender>();
             services.Configure<AuthMessageSenderOptions>(Configuration.GetSection("EmailSender"));
 
             services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
@@ -82,6 +83,9 @@ namespace CikguHub
                 options.FallbackPolicy = new AuthorizationPolicyBuilder()
                     .RequireAuthenticatedUser()
                     .Build();
+
+                options.AddPolicy("RequireAdministratorRole",
+                    policy => policy.RequireRole("Admin"));
             });
 
             services.AddAuthentication()
@@ -109,7 +113,7 @@ namespace CikguHub
                 //app.UseHsts();
             }
 
-            //app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
 
             app.UseRouting();
