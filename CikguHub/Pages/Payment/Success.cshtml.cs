@@ -59,7 +59,7 @@ namespace CikguHub.Pages.Payment
             SuccessMessage = $"Thanks for your order, {customer.Name}!";
 
             await _context.SaveChangesAsync();
-            await _activityLogger.LogActivityAsync(EntityType.User, Payment.UserId, ActivityType.Status, SubscriptionStatus.Active);
+            _activityLogger.LogActivityAsync(EntityType.User, Payment.UserId, ActivityType.Status, SubscriptionStatus.Active);
 
             ApplicationUser user = _userManager.GetUserAsync(User).Result;
             await _signInManager.RefreshSignInAsync(user);

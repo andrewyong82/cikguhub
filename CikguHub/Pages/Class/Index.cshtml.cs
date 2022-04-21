@@ -40,11 +40,6 @@ namespace CikguHub.Pages.Class
                 return NotFound();
             }
 
-            //if (!User.HasCase(id.Value))
-            //{
-            //    return NotFound();
-            //}
-
             Class = await _context.Classes
                 .Include(c => c.Course.Classes)
                 .FirstOrDefaultAsync(m => m.ClassId == id);
@@ -60,8 +55,8 @@ namespace CikguHub.Pages.Class
             if (Class.Status == ClassStatus.Review)
                 return Redirect("/class/" + Class.ClassId.ToString() + "/setup#4");
 
-            await _activityLogger.LogActivityAsync(EntityType.Class, id.Value, ActivityType.Viewed, null, User.GetUserId());
             ViewCount = _activityLogger.GetActivitiesCount(EntityType.Class, id.Value, ActivityType.Viewed);
+            _activityLogger.LogActivityAsync(EntityType.Class, id.Value, ActivityType.Viewed, null, User.GetUserId());
 
             return Page();
         }
@@ -87,7 +82,7 @@ namespace CikguHub.Pages.Class
 
             if (User.GetSubscriptionStatus() != SubscriptionStatus.Active)
             {
-                RedirectToPage("/Payment/Index");
+                return RedirectToPage("/Payment/Index");
             }
 
             return RedirectToPage("/Class/Index", new { id = c.ClassId });
