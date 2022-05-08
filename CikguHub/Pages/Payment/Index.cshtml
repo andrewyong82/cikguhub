@@ -56,32 +56,38 @@
         <div class="card card-custom">
             <div class="card-header">
                 <div class="card-title">
+                    <span class="card-icon">
+                        <i class="flaticon2-chart text-primary"></i>
+                    </span>
+                    <h4 class="card-label">SUBSCRIBE TO BE A CIKGUHUB MEMBER TODAY!</h4>
+                </div>
+                <div class="card-toolbar">
                     @if (String.IsNullOrWhiteSpace(User.GetCustomerId()))
                     {
-                        <span class="card-icon">
-                            <i class="flaticon2-chart text-primary"></i>
-                        </span>
-                        <h4 class="card-label">Subscribe to become a member</h4>
+
                     }
                     else
                     {
                         <a class="btn btn-primary" asp-page="/Payment/Index" asp-page-handler="CustomerPortal">Manage subscription</a>
                     }
-
                 </div>
             </div>
             <div class="card-body">
+                <div class="row justify-content-center text-center my-0 my-md-5">
+                    <p>Join us and be a part of a community of passionate and driven teachers.</p>
+                    <p>Our membership is designed to be affordable yet packed with all the resources you’ll need to level-up your teaching journey. Gain access to our exciting courses, free tools and exclusive privileges from our partner brands only for CikguHub members.</p>
+                </div>
                 <div class="row justify-content-center text-center my-0 my-md-25">
                     <!-- begin: Pricing-->
                     <div class="col-md-4 col-xxl-3 bg-white rounded-left shadow-sm">
                         <div class="pt-25 pb-25 pb-md-10 px-4">
-                            <h4 class="mb-15">Limited Observer</h4>
+                            <h4 class="mb-15">Non-Members</h4>
                             <span class="px-7 py-3 font-size-h1 font-weight-bold d-inline-flex flex-center bg-primary-o-10 rounded-lg mb-15">Free</span>
                             <br>
                             <p class="mb-10 d-flex flex-column text-dark-50">
-                                <span>Lorem ipsum dolor sit amet adipiscing elit</span>
-                                <span>sed do eiusmod tempors labore et dolore</span>
-                                <span>magna siad enim aliqua</span>
+                                <span>Limited access to CikguHub content</span>
+                                <span>&nbsp;</span>
+                                <span>&nbsp;</span>
                             </p>
                             <button type="button" class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3" disabled>Join</button>
                         </div>
@@ -93,14 +99,15 @@
                             <h4 class="text-white mb-15">Monthly Membership</h4>
                             <span class="px-7 py-3 bg-white d-inline-flex flex-center rounded-lg mb-15 bg-white">
                                 <span class="pr-2 text-primary opacity-70">RM</span>
-                                <span class="pr-2 font-size-h1 font-weight-bold text-primary">30</span>
+                                <span class="pr-2 font-size-h1 font-weight-bold text-primary">35</span>
                                 <span class="text-primary opacity-70">/&nbsp;&nbsp;Per Month</span>
                             </span>
                             <br>
                             <p class="text-white mb-10 d-flex flex-column">
-                                <span>Lorem ipsum dolor sit amet adipiscing elit</span>
-                                <span>sed do eiusmod tempors labore et dolore</span>
-                                <span>magna siad enim aliqua</span>
+                                <span>Unlimited Access to all CikguHub content</span>
+                                <span>Free downloadable tools to help you with your classroom tasks</span>
+                                <span>Access to one (1) privilege from partner brands</span>
+                                <span>Access to all CikguHub opportunities and events</span>
                             </p>
                             <button type="button" class="btn btn-white text-uppercase font-weight-bolder px-15 py-3" onclick="subscribeMonthly()">Join</button>
                         </div>
@@ -109,7 +116,7 @@
                     <!-- begin: Pricing-->
                     <div class="col-md-4 col-xxl-3 bg-white rounded-right shadow-sm">
                         <div class="pt-25 pb-25 pb-md-10 px-4">
-                            <h4 class="mb-15">Yearly Membership</h4>
+                            <h4 class="mb-15">Annual Membership</h4>
                             <span class="px-7 py-3 d-inline-flex flex-center rounded-lg mb-15 bg-primary-o-10">
                                 <span class="pr-2 opacity-70">RM</span>
                                 <span class="pr-2 font-size-h1 font-weight-bold">300</span>
@@ -117,9 +124,10 @@
                             </span>
                             <br>
                             <p class="mb-10 d-flex flex-column text-dark-50">
-                                <span>Lorem ipsum dolor sit amet adipiscing elit</span>
-                                <span>sed do eiusmod tempors labore et dolore</span>
-                                <span>magna siad enim aliqua</span>
+                                <span>Unlimited Access to all CikguHub content</span>
+                                <span>Free downloadable tools to help you with your classroom tasks</span>
+                                <span>Access to all privileges from partner brands</span>
+                                <span>Access to all CikguHub opportunities and events</span>
                             </p>
                             <button type="button" class="btn btn-primary text-uppercase font-weight-bolder px-15 py-3" onclick="subscribeYearly()">Join</button>
                         </div>
