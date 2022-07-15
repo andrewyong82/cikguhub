@@ -22,7 +22,7 @@ namespace CikguHub.Helpers
 
         public static string ChannelUrlToEmbedUrl(string url)
         {
-            if (url.Contains("t.me"))
+            if (!String.IsNullOrWhiteSpace(url) && url.Contains("t.me"))
             {
                 Uri uri = new Uri(url);
                 string channelId = uri.PathAndQuery;

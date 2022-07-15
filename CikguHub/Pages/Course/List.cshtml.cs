@@ -28,7 +28,9 @@ namespace CikguHub.Pages.Course
         public async Task<IActionResult> OnGetAsync()
         {
 
-            Courses = await _context.Courses.ToListAsync();
+            Courses = await _context.Courses
+                .Where(c => !c.Deleted)
+                .ToListAsync();
 
             return Page();
         }
